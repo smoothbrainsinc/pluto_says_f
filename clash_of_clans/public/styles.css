@@ -1,0 +1,8 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    color: #1333a6;
+    text-shadow:3px 3px 5px #fffcbf, 2px 2px 2px white;
+    background-color: #1fdedb;
+}
+
