@@ -1,4 +1,4 @@
-// Function to populate a table with flattened data
+// Function to populate a table
 function populateTable(tableId, data) {
     const table = document.getElementById(tableId);
     const tableBody = table.querySelector("tbody");
@@ -43,7 +43,7 @@ function flattenData(data) {
     for (const key in data) {
         if (Array.isArray(data[key])) {
             data[key].forEach(item => {
-                flattenedData.push({ Type: key, ...item }); // Add the type (e.g., "Barbarian") as a "Type" field
+                flattenedData.push({ Type: key, ...item });
             });
         }
     }
@@ -54,29 +54,17 @@ function flattenData(data) {
 async function loadData() {
     try {
         // Load JSON data
-        const [troopResponse, buildingResponse, trapResponse] = await Promise.all([
-            fetch("troop_stats.json"),
-            fetch("building_stats.json"),
-            fetch("trap_stats.json")
-        ]);
-
-        // Check if responses are OK
-        if (!troopResponse.ok || !buildingResponse.ok || !trapResponse.ok) {
-            throw new Error("Failed to fetch JSON data");
-        }
-
+        const troopResponse = await fetch("troop_stats.json");
         const troopData = await troopResponse.json();
-        const buildingData = await buildingResponse.json();
-        const trapData = await trapResponse.json();
-
-        // Flatten the data
         const flattenedTroopData = flattenData(troopData);
-        const flattenedBuildingData = flattenData(buildingData);
-        const flattenedTrapData = flattenData(trapData);
 
-        console.log("Flattened Troop Data:", flattenedTroopData);
-        console.log("Flattened Building Data:", flattenedBuildingData);
-        console.log("Flattened Trap Data:", flattenedTrapData);
+        const buildingResponse = await fetch("building_stats.json");
+        const buildingData = await buildingResponse.json();
+        const flattenedBuildingData = flattenData(buildingData);
+
+        const trapResponse = await fetch("trap_stats.json");
+        const trapData = await trapResponse.json();
+        const flattenedTrapData = flattenData(trapData);
 
         // Populate tables
         populateTable("troops-table", flattenedTroopData);
