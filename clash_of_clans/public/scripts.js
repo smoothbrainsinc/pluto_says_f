@@ -1,14 +1,12 @@
 // Function to create and populate a table for a specific troop type
-function createTroopTable(containerId, data, title) {
-    const container = document.getElementById(containerId);
-
+function createTroopTable(troopType, data) {
     // Create a new section for the troop type
     const section = document.createElement("div");
     section.className = "section";
 
     // Create a header for the troop type
     const header = document.createElement("h3");
-    header.textContent = title;
+    header.textContent = troopType;
     header.style.textAlign = "center";
     header.style.fontSize = "2rem";
     header.style.marginBottom = "1rem";
@@ -52,8 +50,9 @@ function createTroopTable(containerId, data, title) {
     // Append the table to the section
     section.appendChild(table);
 
-    // Append the section to the container
-    container.appendChild(section);
+    // Append the section to the troops container
+    const troopsContainer = document.getElementById("troops-container");
+    troopsContainer.appendChild(section);
 }
 
 // Function to load JSON data and create tables for each troop type
@@ -63,35 +62,14 @@ async function loadData() {
         const troopResponse = await fetch("troop_stats.json");
         const troopData = await troopResponse.json();
 
-        const buildingResponse = await fetch("building_stats.json");
-        const buildingData = await buildingResponse.json();
-
-        const trapResponse = await fetch("trap_stats.json");
-        const trapData = await trapResponse.json();
-
-        // Clear existing content in the containers
-        document.getElementById("troops-container").innerHTML = "";
-        document.getElementById("buildings-container").innerHTML = "";
-        document.getElementById("traps-container").innerHTML = "";
+        // Clear existing content in the troops container
+        const troopsContainer = document.getElementById("troops-container");
+        troopsContainer.innerHTML = "";
 
         // Iterate over each troop type and create a table for it
         for (const troopType in troopData) {
             if (Array.isArray(troopData[troopType])) {
-                createTroopTable("troops-container", troopData[troopType], troopType);
-            }
-        }
-
-        // Iterate over each building type and create a table for it
-        for (const buildingType in buildingData) {
-            if (Array.isArray(buildingData[buildingType])) {
-                createTroopTable("buildings-container", buildingData[buildingType], buildingType);
-            }
-        }
-
-        // Iterate over each trap type and create a table for it
-        for (const trapType in trapData) {
-            if (Array.isArray(trapData[trapType])) {
-                createTroopTable("traps-container", trapData[trapType], trapType);
+                createTroopTable(troopType, troopData[troopType]);
             }
         }
     } catch (error) {
