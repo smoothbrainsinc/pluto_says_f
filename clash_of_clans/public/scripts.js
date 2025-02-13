@@ -41,14 +41,14 @@ function populateTable(tableId, data) {
 async function loadData() {
     try {
         // Load JSON data
-        const troopResponse = await fetch("troop_stats.json");
-        const troopData = await troopResponse.json();
+        const troopResponse = await fetch("clash_of_clans/public/troop_stats.json");
+        const troopData = await troopResponse.json().catch(() => []); // Fallback to empty array
 
-        const buildingResponse = await fetch("building_stats.json");
-        const buildingData = await buildingResponse.json();
+        const buildingResponse = await fetch("clash_of_clans/public/building_stats.json");
+        const buildingData = await buildingResponse.json().catch(() => []); // Fallback to empty array
 
-        const trapResponse = await fetch("trap_stats.json");
-        const trapData = await trapResponse.json();
+        const trapResponse = await fetch("clash_of_clans/public/trap_stats.json");
+        const trapData = await trapResponse.json().catch(() => []); // Fallback to empty array
 
         // Populate tables
         populateTable("troops-table", troopData);
