@@ -1,5 +1,5 @@
 // Function to populate a table
-function populateTable(tableId, data) {
+function populateTable(tableId, data, troopType) {
     const table = document.getElementById(tableId);
     const tableBody = table.querySelector("tbody");
     const tableHead = table.querySelector("thead");
@@ -12,6 +12,14 @@ function populateTable(tableId, data) {
         console.warn(`No data found for table ${tableId}`);
         return;
     }
+
+    // Create a header above the table with the troop type in big letters
+    const header = document.createElement("h3");
+    header.textContent = troopType;
+    header.style.textAlign = "center";
+    header.style.fontSize = "2rem";
+    header.style.marginBottom = "1rem";
+    table.parentNode.insertBefore(header, table);
 
     // Extract keys from the first item to use as headers
     const headers = Object.keys(data[0]);
@@ -66,10 +74,10 @@ async function loadData() {
         const trapData = await trapResponse.json();
         const flattenedTrapData = flattenData(trapData);
 
-        // Populate tables
-        populateTable("troops-table", flattenedTroopData);
-        populateTable("buildings-table", flattenedBuildingData);
-        populateTable("traps-table", flattenedTrapData);
+        // Populate tables with troop type headers
+        populateTable("troops-table", flattenedTroopData, "Barbarian");
+        populateTable("buildings-table", flattenedBuildingData, "Buildings");
+        populateTable("traps-table", flattenedTrapData, "Traps");
     } catch (error) {
         console.error("Error loading data:", error);
     }
