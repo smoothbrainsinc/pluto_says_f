@@ -30,7 +30,7 @@ function populateTable(section, data, troopType) {
         const row = document.createElement('tr');
         headers.forEach(header => {
             const cell = document.createElement('td');
-            cell.textContent = item[header] || "N/A";
+            cell.textContent = item[header] || "N/A"; // Use "N/A" if data is missing
             row.appendChild(cell);
         });
         tableBody.appendChild(row);
