@@ -37,23 +37,31 @@ function populateTable(tableId, data) {
     });
 }
 
+// Function to flatten JSON data
+function flattenData(data) {
+    const flattenedData = [];
+    for (const trapName in data) {
+        if (Array.isArray(data[trapName])) {
+            data[trapName].forEach(level => {
+                flattenedData.push({ Trap: trapName, ...level });
+            });
+        }
+    }
+    return flattenedData;
+}
+
 // Function to load JSON data and populate tables
 async function loadData() {
     try {
         // Load JSON data
-        const troopResponse = await fetch("clash_of_clans/public/troop_stats.json");
-        const troopData = await troopResponse.json().catch(() => []); // Fallback to empty array
+        const trapResponse = await fetch("trap_stats.json");
+        const trapData = await trapResponse.json();
 
-        const buildingResponse = await fetch("clash_of_clans/public/building_stats.json");
-        const buildingData = await buildingResponse.json().catch(() => []); // Fallback to empty array
-
-        const trapResponse = await fetch("clash_of_clans/public/trap_stats.json");
-        const trapData = await trapResponse.json().catch(() => []); // Fallback to empty array
+        // Flatten the data
+        const flattenedTrapData = flattenData(trapData);
 
         // Populate tables
-        populateTable("troops-table", troopData);
-        populateTable("buildings-table", buildingData);
-        populateTable("traps-table", trapData);
+        populateTable("traps-table", flattenedTrapData);
     } catch (error) {
         console.error("Error loading data:", error);
     }
