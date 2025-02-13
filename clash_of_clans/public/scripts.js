@@ -40,10 +40,10 @@ function populateTable(tableId, data) {
 // Function to flatten JSON data
 function flattenData(data) {
     const flattenedData = [];
-    for (const trapName in data) {
-        if (Array.isArray(data[trapName])) {
-            data[trapName].forEach(level => {
-                flattenedData.push({ Trap: trapName, ...level });
+    for (const key in data) {
+        if (Array.isArray(data[key])) {
+            data[key].forEach(item => {
+                flattenedData.push({ Type: key, ...item });
             });
         }
     }
@@ -54,13 +54,21 @@ function flattenData(data) {
 async function loadData() {
     try {
         // Load JSON data
+        const troopResponse = await fetch("troop_stats.json");
+        const troopData = await troopResponse.json();
+        const flattenedTroopData = flattenData(troopData);
+
+        const buildingResponse = await fetch("building_stats.json");
+        const buildingData = await buildingResponse.json();
+        const flattenedBuildingData = flattenData(buildingData);
+
         const trapResponse = await fetch("trap_stats.json");
         const trapData = await trapResponse.json();
-
-        // Flatten the data
         const flattenedTrapData = flattenData(trapData);
 
         // Populate tables
+        populateTable("troops-table", flattenedTroopData);
+        populateTable("buildings-table", flattenedBuildingData);
         populateTable("traps-table", flattenedTrapData);
     } catch (error) {
         console.error("Error loading data:", error);
