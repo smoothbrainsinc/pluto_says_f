@@ -62,7 +62,7 @@ async function loadData() {
                 section.id = `${troopType.toLowerCase()}-section`;
 
                 // Populate the table for this troop type
-                populateTable(section.id, troopData[troopType], troopType);
+                populateTable(section, troopData[troopType], troopType);
 
                 // Append the section to the troops container
                 troopsContainer.appendChild(section);
