@@ -49,11 +49,23 @@ async function loadData() {
         const troopResponse = await fetch("troop_stats.json");
         const troopData = await troopResponse.json();
 
-        // Get the container for troops
-        const troopsContainer = document.getElementById('troops-container');
-        troopsContainer.innerHTML = ""; // Clear existing content
+        const buildingResponse = await fetch("building_stats.json");
+        const buildingData = await buildingResponse.json();
 
-        // Iterate through each troop type
+        const trapResponse = await fetch("trap_stats.json");
+        const trapData = await trapResponse.json();
+
+        // Get the container for troops, buildings, and traps
+        const troopsContainer = document.getElementById('troops-container');
+        const buildingsContainer = document.getElementById('buildings-container');
+        const trapsContainer = document.getElementById('traps-container');
+
+        // Clear existing content
+        troopsContainer.innerHTML = "";
+        buildingsContainer.innerHTML = "";
+        trapsContainer.innerHTML = "";
+
+        // Iterate through each troop type and create tables
         for (const troopType in troopData) {
             if (Array.isArray(troopData[troopType])) {
                 // Create a new section for the troop type
@@ -66,6 +78,38 @@ async function loadData() {
 
                 // Append the section to the troops container
                 troopsContainer.appendChild(section);
+            }
+        }
+
+        // Iterate through each building type and create tables
+        for (const buildingType in buildingData) {
+            if (Array.isArray(buildingData[buildingType])) {
+                // Create a new section for the building type
+                const section = document.createElement('div');
+                section.className = 'section';
+                section.id = `${buildingType.toLowerCase()}-section`;
+
+                // Populate the table for this building type
+                populateTable(section, buildingData[buildingType], buildingType);
+
+                // Append the section to the buildings container
+                buildingsContainer.appendChild(section);
+            }
+        }
+
+        // Iterate through each trap type and create tables
+        for (const trapType in trapData) {
+            if (Array.isArray(trapData[trapType])) {
+                // Create a new section for the trap type
+                const section = document.createElement('div');
+                section.className = 'section';
+                section.id = `${trapType.toLowerCase()}-section`;
+
+                // Populate the table for this trap type
+                populateTable(section, trapData[trapType], trapType);
+
+                // Append the section to the traps container
+                trapsContainer.appendChild(section);
             }
         }
     } catch (error) {
