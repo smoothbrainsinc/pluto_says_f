@@ -1,8 +1,5 @@
 // Function to populate a table for a specific troop type
-function populateTable(tableId, data, troopType) {
-    const section = document.getElementById(tableId);
-    section.innerHTML = ""; // Clear existing content
-
+function populateTable(section, data, troopType) {
     // Add a header for the troop type
     const header = document.createElement('h3');
     header.textContent = troopType;
