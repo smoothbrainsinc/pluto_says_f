@@ -1,154 +1,130 @@
-function startAuth() {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-      const source = audioContext.createMediaStreamSource(stream);
-      analyser = audioContext.createAnalyser();
-      source.connect(analyser);
-      isListening = true;
-      detectNotes();
-    })
-    .catch(err => {
-      console.error('Error accessing the microphone', err);
-      document.getElementById('auth-status').textContent = 'Microphone access denied. Please allow and try again.';
-    });
-}
+// Function to populate a table
+function populateTable(tableId, data) {
+    console.log(`Populating table: ${tableId}`); // Debugging
+    console.log("Data received:", data); // Debugging
 
-let detectedSequence = [];
+    const table = document.getElementById(tableId);
+    const tableBody = table.querySelector("tbody");
+    const tableHead = table.querySelector("thead");
 
-function detectNotes() {
-  if (!isListening) return;
+    // Clear existing content
+    tableHead.innerHTML = "";
+    tableBody.innerHTML = "";
 
-  analyser.fftSize = 4096;
-  const bufferLength = analyser.frequencyBinCount;
-  const dataArray = new Float32Array(bufferLength);
-  analyser.getFloatTimeDomainData(dataArray);
-
-  const rms = calculateRMS(dataArray);
-  if (rms < 0.01) {
-    document.getElementById('detected-notes').textContent = 'Silence detected. Waiting for input...';
-    requestAnimationFrame(detectNotes);
-    return;
-  }
-
-  const detectedNotes = getPitches(dataArray, audioContext.sampleRate);
-  document.getElementById('detected-notes').textContent = `Detected notes: ${detectedNotes.join(', ')}`;
-
-  if (detectedNotes.length > 0) {
-    const lastDetectedNote = detectedNotes[detectedNotes.length - 1];
-    document.getElementById('auth-status').textContent = `Last detected note: ${lastDetectedNote}`;
-
-    if (lastDetectedNote === noteSequence[currentNoteIndex]) {
-      currentNoteIndex++;
-      document.getElementById('auth-status').textContent = `Correct! ${currentNoteIndex}/${noteSequence.length}`;
-
-      if (currentNoteIndex === noteSequence.length) {
-        simulateAuthentication();
+    if (!data || data.length === 0) {
+        console.warn(`No data found for table ${tableId}`);
         return;
-      }
-    } else if (currentNoteIndex > 0 && lastDetectedNote !== noteSequence[currentNoteIndex - 1]) {
-      currentNoteIndex = 0;
-      document.getElementById('auth-status').textContent = 'Sequence reset. Try again.';
     }
-  } else {
-    document.getElementById('auth-status').textContent = 'No notes detected. Waiting for input...';
-  }
 
-  requestAnimationFrame(detectNotes);
+    // Extract keys from the first item to use as headers
+    const headers = Object.keys(data[0]);
+    console.log("Headers:", headers); // Debugging
+
+    // Create header row
+    const headerRow = document.createElement("tr");
+    headers.forEach(header => {
+        const th = document.createElement("th");
+        th.textContent = header; // Use the key as the header text
+        headerRow.appendChild(th);
+    });
+    tableHead.appendChild(headerRow);
+
+    // Create data rows
+    data.forEach(item => {
+        const row = document.createElement("tr");
+        headers.forEach(header => {
+            const cell = document.createElement("td");
+            cell.textContent = item[header] || "N/A"; // Use "N/A" if data is missing
+            row.appendChild(cell);
+        });
+        tableBody.appendChild(row);
+    });
+
+    console.log(`Table ${tableId} populated successfully.`); // Debugging
 }
 
+// Function to flatten nested JSON data
+function flattenData(data) {
+    console.log("Flattening data:", data); // Debugging
 
-let recentPitches = [];
-const RECENT_PITCHES_MAX = 5;
-
-function getPitches(buffer, sampleRate) {
-  const correlations = autocorrelate(buffer);
-  const maxCorrelation = Math.max(...correlations);
-  const threshold = maxCorrelation * 0.8; // Dynamic threshold
-
-  const pitches = [];
-  for (let i = 0; i < correlations.length; i++) {
-    if (correlations[i] > threshold) {
-      const frequency = sampleRate / i;
-      const note = getClosestNote(frequency);
-      if (note && !pitches.includes(note)) {
-        pitches.push(note);
-      }
+    if (!data || typeof data !== "object") {
+        console.warn("Invalid data format:", data);
+        return [];
     }
-  }
 
-  return pitches;
-}
-
-function calculateNoiseFloor(correlations) {
-  const sorted = [...correlations].sort((a, b) => a - b);
-  return sorted[Math.floor(sorted.length * 0.9)]; // 90th percentile
-}
-
-function calculateRMS(buffer) {
-  const sum = buffer.reduce((acc, val) => acc + val * val, 0);
-  return Math.sqrt(sum / buffer.length);
-}
-
-function getStablePitches(recentPitches) {
-  const flatPitches = recentPitches.flat();
-  const pitchCounts = {};
-  flatPitches.forEach(pitch => {
-    pitchCounts[pitch] = (pitchCounts[pitch] || 0) + 1;
-  });
-  
-  return Object.entries(pitchCounts)
-    .filter(([_, count]) => count > recentPitches.length / 2)
-    .map(([pitch, _]) => pitch);
-}
-
-
-function autocorrelate(buffer) {
-  const correlations = new Float32Array(buffer.length);
-  
-  for (let lag = 0; lag < buffer.length; lag++) {
-    let sum = 0;
-    for (let i = 0; i < buffer.length - lag; i++) {
-      sum += buffer[i] * buffer[i + lag];
+    const flattened = [];
+    for (const type in data) {
+        if (Array.isArray(data[type])) {
+            if (data[type].length === 0) {
+                console.warn(`Skipping empty array for type: ${type}`); // Debugging
+                continue; // Skip empty arrays
+            }
+            data[type].forEach(item => {
+                if (item && typeof item === "object") {
+                    item.Type = type; // Add the type to each item
+                    flattened.push(item);
+                } else {
+                    console.warn(`Skipping invalid item for type: ${type}`, item); // Debugging
+                }
+            });
+        } else {
+            console.warn(`Skipping non-array data for type: ${type}`, data[type]); // Debugging
+        }
     }
-    correlations[lag] = sum;
-  }
-  
-  return correlations;
+
+    console.log("Flattened data:", flattened); // Debugging
+    return flattened;
 }
 
-function getClosestNote(frequency) {
-  const notes = {
-    'E2': 82.41, 'F2': 87.31, 'F#2': 92.50, 'G2': 98.00, 'G#2': 103.83,
-    'A2': 110.00, 'A#2': 116.54, 'B2': 123.47, 'C3': 130.81, 'C#3': 138.59,
-    'D3': 146.83, 'D#3': 155.56, 'E3': 164.81, 'F3': 174.61, 'F#3': 185.00,
-    'G3': 196.00, 'G#3': 207.65, 'A3': 220.00, 'A#3': 233.08, 'B3': 246.94,
-    'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63
-  };
+// Function to load JSON data and populate tables
+async function loadData() {
+    console.log("Loading data..."); // Debugging
 
-  let closestNote = null;
-  let closestDiff = Infinity;
-  const tolerance = 10; // Allow ±5 Hz difference
+    try {
+        // Load JSON data
+        console.log("Fetching troop_stats.json..."); // Debugging
+        const troopResponse = await fetch("troop_stats.json");
+        const troopData = await troopResponse.json();
+        console.log("Troop Data:", troopData); // Debugging
 
-  for (const [note, freq] of Object.entries(notes)) {
-    const diff = Math.abs(frequency - freq);
-    if (diff < closestDiff && diff <= tolerance) {
-      closestDiff = diff;
-      closestNote = note;
+        console.log("Fetching building_stats.json..."); // Debugging
+        const buildingResponse = await fetch("building_stats.json");
+        const buildingData = await buildingResponse.json();
+        console.log("Building Data:", buildingData); // Debugging
+
+        console.log("Fetching trap_stats.json..."); // Debugging
+        const trapResponse = await fetch("trap_stats.json");
+        const trapData = await trapResponse.json();
+        console.log("Trap Data:", trapData); // Debugging
+
+        // Flatten nested data
+        console.log("Flattening troop data..."); // Debugging
+        const flattenedTroopData = flattenData(troopData);
+        console.log("Flattened Troop Data:", flattenedTroopData); // Debugging
+
+        console.log("Flattening building data..."); // Debugging
+        const flattenedBuildingData = flattenData(buildingData);
+        console.log("Flattened Building Data:", flattenedBuildingData); // Debugging
+
+        console.log("Flattening trap data..."); // Debugging
+        const flattenedTrapData = flattenData(trapData);
+        console.log("Flattened Trap Data:", flattenedTrapData); // Debugging
+
+        // Populate tables
+        console.log("Populating troops table..."); // Debugging
+        populateTable("troops-table", flattenedTroopData);
+
+        console.log("Populating buildings table..."); // Debugging
+        populateTable("buildings-table", flattenedBuildingData);
+
+        console.log("Populating traps table..."); // Debugging
+        populateTable("traps-table", flattenedTrapData);
+
+        console.log("Data loading and table population complete."); // Debugging
+    } catch (error) {
+        console.error("Error loading data:", error);
     }
-  }
-
-  return closestNote;
 }
 
-function simulateAuthentication() {
-  isListening = false;
-  document.getElementById('auth-status').textContent = 'Authentication successful! Redirecting...';
-  console.log('Authentication would happen here in the live version');
-
-  // Simulate a redirect or show new content
-  setTimeout(() => {
-    document.getElementById('guitar-auth').style.display = 'none';
-    document.getElementById('card-container').style.display = 'grid';
-  }, 2000); // Redirect after 2 seconds
-}
+// Load data when the page loads
+window.onload = loadData;
