@@ -1,20 +1,3 @@
-// Function to group data by type
-function groupDataByType(data) {
-    console.log("Grouping data by type..."); // Debug: Log grouping
-    const groupedData = {};
-
-    data.forEach(item => {
-        const type = item.Type;
-        if (!groupedData[type]) {
-            groupedData[type] = []; // Initialize array for new type
-        }
-        groupedData[type].push(item); // Add item to the corresponding type
-    });
-
-    console.log("Grouped data:", groupedData); // Debug: Log grouped data
-    return groupedData;
-}
-
 // Function to create and populate a table for a specific troop type
 function createTroopTable(troopType, data) {
     console.log(`Creating table for ${troopType}`); // Debug: Log troop type
@@ -39,8 +22,8 @@ function createTroopTable(troopType, data) {
     const tableHead = document.createElement("thead");
     const tableBody = document.createElement("tbody");
 
-    // Extract keys from the first item to use as headers (excluding "Type")
-    const headers = Object.keys(data[0]).filter(key => key !== "Type");
+    // Extract keys from the first item to use as headers
+    const headers = Object.keys(data[0]);
     console.log("Headers for", troopType, ":", headers); // Debug: Log headers
 
     // Create header row
@@ -89,22 +72,16 @@ async function loadData() {
         const troopData = await troopResponse.json();
         console.log("Troop data (raw):", troopData); // Debug: Log raw troop data
 
-        // Flatten the data (if necessary)
-        const flattenedTroopData = flattenData(troopData);
-        console.log("Troop data (flattened):", flattenedTroopData); // Debug: Log flattened troop data
-
-        // Group the data by type
-        const groupedTroopData = groupDataByType(flattenedTroopData);
-        console.log("Grouped troop data:", groupedTroopData); // Debug: Log grouped troop data
-
         // Clear existing content in the troops container
         const troopsContainer = document.getElementById("troops-container");
         troopsContainer.innerHTML = "";
 
         // Iterate over each troop type and create a table for it
-        for (const troopType in groupedTroopData) {
-            console.log(`Processing troop type: ${troopType}`); // Debug: Log troop type
-            createTroopTable(troopType, groupedTroopData[troopType]);
+        for (const troopType in troopData) {
+            if (Array.isArray(troopData[troopType])) {
+                console.log(`Processing troop type: ${troopType}`); // Debug: Log troop type
+                createTroopTable(troopType, troopData[troopType]);
+            }
         }
 
         console.log("Data loaded and tables populated successfully!"); // Debug: Log success
