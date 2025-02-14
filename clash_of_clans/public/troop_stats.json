@@ -2328,7 +2328,74 @@
             "Laboratory Level Required": "14"
         }
     ],
-    "Lava Hound": [],
+    "Lava Hound": [
+        {
+            "Level": "1",
+            "Damage per Second": "10",
+            "Damage per Hit": "20",
+            "Damage Upon Death": "100",
+            "Lava Pups Spawned (After Death)": "8",
+            "Hitpoints": "6,100",
+            "Research Cost": "N/A",
+            "Research Time": "N/A",
+            "Laboratory Level Required": "N/A"
+        },
+        {
+            "Level": "2",
+            "Damage per Second": "12",
+            "Damage per Hit": "24",
+            "Damage Upon Death": "150",
+            "Lava Pups Spawned (After Death)": "10",
+            "Hitpoints": "6,500",
+            "Research Cost": "14,000",
+            "Research Time": "2d",
+            "Laboratory Level Required": "7"
+        },
+        {
+            "Level": "3",
+            "Damage per Second": "14",
+            "Damage per Hit": "28",
+            "Damage Upon Death": "200",
+            "Lava Pups Spawned (After Death)": "12",
+            "Hitpoints": "6,800",
+            "Research Cost": "21,500",
+            "Research Time": "3d",
+            "Laboratory Level Required": "8"
+        },
+        {
+            "Level": "4",
+            "Damage per Second": "16",
+            "Damage per Hit": "32",
+            "Damage Upon Death": "250",
+            "Lava Pups Spawned (After Death)": "14",
+            "Hitpoints": "7,200",
+            "Research Cost": "42,500",
+            "Research Time": "4d 12h",
+            "Laboratory Level Required": "9"
+        },
+        {
+            "Level": "5",
+            "Damage per Second": "18",
+            "Damage per Hit": "36",
+            "Damage Upon Death": "300",
+            "Lava Pups Spawned (After Death)": "16",
+            "Hitpoints": "7,600",
+            "Research Cost": "60,000",
+            "Research Time": "5d",
+            "Laboratory Level Required": "10"
+        },
+        {
+            "Level": "6",
+            "Damage per Second": "20",
+            "Damage per Hit": "40",
+            "Damage Upon Death": "350",
+            "Lava Pups Spawned (After Death)": "18",
+            "Hitpoints": "8,000",
+            "Research Cost": "80,000",
+            "Research Time": "8d",
+            "Laboratory Level Required": "11"
+        }
+    ],
     "Bowler": [
         {
             "Level": "1",
