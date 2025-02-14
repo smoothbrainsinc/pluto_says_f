@@ -58,9 +58,10 @@ function createTroopTable(troopType, data) {
 // Function to load JSON data and create tables for each troop type
 async function loadData() {
     try {
-        // Load JSON data
-        const troopResponse = await fetch("troop_stats.json");
+        // Load JSON data from the correct path
+        const troopResponse = await fetch("clash_of_clans/public/troop_stats.json");
         const troopData = await troopResponse.json();
+        console.log("Troop Data:", troopData); // Log the fetched data
 
         // Clear existing content in the troops container
         const troopsContainer = document.getElementById("troops-container");
@@ -69,6 +70,7 @@ async function loadData() {
         // Iterate over each troop type and create a table for it
         for (const troopType in troopData) {
             if (Array.isArray(troopData[troopType])) {
+                console.log(`Creating table for ${troopType}`); // Log the troop type
                 createTroopTable(troopType, troopData[troopType]);
             }
         }
