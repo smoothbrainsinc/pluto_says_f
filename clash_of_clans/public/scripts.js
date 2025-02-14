@@ -56,15 +56,21 @@ async function loadData() {
         // Load JSON data
         const troopResponse = await fetch("troop_stats.json");
         const troopData = await troopResponse.json();
+        console.log("Troop Data (Raw):", troopData); // Log raw data
         const flattenedTroopData = flattenData(troopData);
+        console.log("Troop Data (Flattened):", flattenedTroopData); // Log flattened data
 
         const buildingResponse = await fetch("building_stats.json");
         const buildingData = await buildingResponse.json();
+        console.log("Building Data (Raw):", buildingData); // Log raw data
         const flattenedBuildingData = flattenData(buildingData);
+        console.log("Building Data (Flattened):", flattenedBuildingData); // Log flattened data
 
         const trapResponse = await fetch("trap_stats.json");
         const trapData = await trapResponse.json();
+        console.log("Trap Data (Raw):", trapData); // Log raw data
         const flattenedTrapData = flattenData(trapData);
+        console.log("Trap Data (Flattened):", flattenedTrapData); // Log flattened data
 
         // Populate tables
         populateTable("troops-table", flattenedTroopData);
