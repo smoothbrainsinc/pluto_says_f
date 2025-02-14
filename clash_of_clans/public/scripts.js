@@ -1,29 +1,47 @@
-// Function to populate a table
-function populateTable(tableId, data) {
-    console.log(`Populating table: ${tableId}`); // Debug: Log table ID
-    const table = document.getElementById(tableId);
-    console.log("Table element:", table); // Debug: Log table element
+// Function to group data by type
+function groupDataByType(data) {
+    console.log("Grouping data by type..."); // Debug: Log grouping
+    const groupedData = {};
 
-    if (!table) {
-        console.error(`Table with ID ${tableId} not found!`); // Debug: Log error if table is missing
-        return;
-    }
+    data.forEach(item => {
+        const type = item.Type;
+        if (!groupedData[type]) {
+            groupedData[type] = []; // Initialize array for new type
+        }
+        groupedData[type].push(item); // Add item to the corresponding type
+    });
 
-    const tableBody = table.querySelector("tbody");
-    const tableHead = table.querySelector("thead");
+    console.log("Grouped data:", groupedData); // Debug: Log grouped data
+    return groupedData;
+}
 
-    // Clear existing content
-    tableHead.innerHTML = "";
-    tableBody.innerHTML = "";
+// Function to create and populate a table for a specific troop type
+function createTroopTable(troopType, data) {
+    console.log(`Creating table for ${troopType}`); // Debug: Log troop type
 
-    if (data.length === 0) {
-        console.warn(`No data found for table ${tableId}`); // Debug: Log warning if data is empty
-        return;
-    }
+    // Create a new section for the troop type
+    const section = document.createElement("div");
+    section.className = "section";
 
-    // Extract keys from the first item to use as headers
-    const headers = Object.keys(data[0]);
-    console.log("Headers:", headers); // Debug: Log headers
+    // Create a header for the troop type
+    const header = document.createElement("h3");
+    header.textContent = troopType;
+    header.style.textAlign = "center";
+    header.style.fontSize = "2rem";
+    header.style.marginBottom = "1rem";
+    section.appendChild(header);
+
+    // Create a table element
+    const table = document.createElement("table");
+    table.className = "table table-striped";
+
+    // Create table head and body
+    const tableHead = document.createElement("thead");
+    const tableBody = document.createElement("tbody");
+
+    // Extract keys from the first item to use as headers (excluding "Type")
+    const headers = Object.keys(data[0]).filter(key => key !== "Type");
+    console.log("Headers for", troopType, ":", headers); // Debug: Log headers
 
     // Create header row
     const headerRow = document.createElement("tr");
@@ -36,7 +54,7 @@ function populateTable(tableId, data) {
 
     // Create data rows
     data.forEach((item, index) => {
-        console.log(`Processing row ${index + 1}:`, item); // Debug: Log each row of data
+        console.log(`Processing row ${index + 1} for ${troopType}:`, item); // Debug: Log each row of data
         const row = document.createElement("tr");
         headers.forEach(header => {
             const cell = document.createElement("td");
@@ -46,27 +64,21 @@ function populateTable(tableId, data) {
         tableBody.appendChild(row);
     });
 
-    console.log(`Table ${tableId} populated successfully!`); // Debug: Log success
+    // Append thead and tbody to the table
+    table.appendChild(tableHead);
+    table.appendChild(tableBody);
+
+    // Append the table to the section
+    section.appendChild(table);
+
+    // Append the section to the troops container
+    const troopsContainer = document.getElementById("troops-container");
+    troopsContainer.appendChild(section);
+
+    console.log(`Table for ${troopType} created successfully!`); // Debug: Log success
 }
 
-// Function to flatten JSON data
-function flattenData(data) {
-    console.log("Flattening data:", data); // Debug: Log raw data
-    const flattenedData = [];
-    for (const key in data) {
-        if (Array.isArray(data[key])) {
-            console.log(`Processing key: ${key}`); // Debug: Log each key
-            data[key].forEach((item, index) => {
-                console.log(`Processing item ${index + 1} for key ${key}:`, item); // Debug: Log each item
-                flattenedData.push({ Type: key, ...item });
-            });
-        }
-    }
-    console.log("Flattened data:", flattenedData); // Debug: Log flattened data
-    return flattenedData;
-}
-
-// Function to load JSON data and populate tables
+// Function to load JSON data and create tables for each troop type
 async function loadData() {
     console.log("Loading data..."); // Debug: Log start of data loading
     try {
@@ -76,34 +88,24 @@ async function loadData() {
         console.log("Troop response:", troopResponse); // Debug: Log troop response
         const troopData = await troopResponse.json();
         console.log("Troop data (raw):", troopData); // Debug: Log raw troop data
+
+        // Flatten the data (if necessary)
         const flattenedTroopData = flattenData(troopData);
         console.log("Troop data (flattened):", flattenedTroopData); // Debug: Log flattened troop data
 
-        console.log("Fetching building data..."); // Debug: Log building data fetch
-        const buildingResponse = await fetch("building_stats.json");
-        console.log("Building response:", buildingResponse); // Debug: Log building response
-        const buildingData = await buildingResponse.json();
-        console.log("Building data (raw):", buildingData); // Debug: Log raw building data
-        const flattenedBuildingData = flattenData(buildingData);
-        console.log("Building data (flattened):", flattenedBuildingData); // Debug: Log flattened building data
+        // Group the data by type
+        const groupedTroopData = groupDataByType(flattenedTroopData);
+        console.log("Grouped troop data:", groupedTroopData); // Debug: Log grouped troop data
 
-        console.log("Fetching trap data..."); // Debug: Log trap data fetch
-        const trapResponse = await fetch("trap_stats.json");
-        console.log("Trap response:", trapResponse); // Debug: Log trap response
-        const trapData = await trapResponse.json();
-        console.log("Trap data (raw):", trapData); // Debug: Log raw trap data
-        const flattenedTrapData = flattenData(trapData);
-        console.log("Trap data (flattened):", flattenedTrapData); // Debug: Log flattened trap data
+        // Clear existing content in the troops container
+        const troopsContainer = document.getElementById("troops-container");
+        troopsContainer.innerHTML = "";
 
-        // Populate tables
-        console.log("Populating troops table..."); // Debug: Log troops table population
-        populateTable("troops-table", flattenedTroopData);
-
-        console.log("Populating buildings table..."); // Debug: Log buildings table population
-        populateTable("buildings-table", flattenedBuildingData);
-
-        console.log("Populating traps table..."); // Debug: Log traps table population
-        populateTable("traps-table", flattenedTrapData);
+        // Iterate over each troop type and create a table for it
+        for (const troopType in groupedTroopData) {
+            console.log(`Processing troop type: ${troopType}`); // Debug: Log troop type
+            createTroopTable(troopType, groupedTroopData[troopType]);
+        }
 
         console.log("Data loaded and tables populated successfully!"); // Debug: Log success
     } catch (error) {
