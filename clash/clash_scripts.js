@@ -65,29 +65,79 @@ async function loadData() {
     console.log("Loading data..."); // Debugging
 
     try {
-        // Fetch troops data
-        const troopResponse = await fetch('/api/troops');
+        // Load JSON data
+        console.log("Fetching troop_stats.json..."); // Debugging
+        const troopResponse = await fetch("troop_stats.json");
+        if (!troopResponse.ok) {
+            throw new Error(`Failed to fetch troop_stats.json: ${troopResponse.statusText}`);
+        }
         const troopData = await troopResponse.json();
         console.log("Troop Data:", troopData); // Debugging
 
-        // Fetch buildings data
-        const buildingResponse = await fetch('/api/buildings');
+        console.log("Fetching building_stats.json..."); // Debugging
+        const buildingResponse = await fetch("building_stats.json");
+        if (!buildingResponse.ok) {
+            throw new Error(`Failed to fetch building_stats.json: ${buildingResponse.statusText}`);
+        }
         const buildingData = await buildingResponse.json();
         console.log("Building Data:", buildingData); // Debugging
 
-        // Fetch traps data
-        const trapResponse = await fetch('/api/traps');
+        console.log("Fetching trap_stats.json..."); // Debugging
+        const trapResponse = await fetch("trap_stats.json");
+        if (!trapResponse.ok) {
+            throw new Error(`Failed to fetch trap_stats.json: ${trapResponse.statusText}`);
+        }
         const trapData = await trapResponse.json();
         console.log("Trap Data:", trapData); // Debugging
 
         // Clear existing content in the troops container
-        const troopsContainer = document.getElementById('troops-container');
-        troopsContainer.innerHTML = '';
+        const troopsContainer = document.getElementById("troops-container");
+        troopsContainer.innerHTML = "";
 
-        // Process and display troops data
-        processData(troopData, 'troop');
-        processData(buildingData, 'building');
-        processData(trapData, 'trap');
+        // Process troop data
+        for (const troopType in troopData) {
+            if (Array.isArray(troopData[troopType])) {
+                if (troopData[troopType].length === 0) {
+                    console.warn(`Skipping empty array for type: ${troopType}`); // Debugging
+                    createTroopTable(troopType, [{ Message: "No data available" }]); // Add placeholder
+                } else {
+                    console.log(`Processing troop type: ${troopType}`); // Debugging
+                    createTroopTable(troopType, troopData[troopType]);
+                }
+            } else {
+                console.warn(`Skipping non-array data for type: ${troopType}`, troopData[troopType]); // Debugging
+            }
+        }
+
+        // Process building data (if needed)
+        for (const buildingType in buildingData) {
+            if (Array.isArray(buildingData[buildingType])) {
+                if (buildingData[buildingType].length === 0) {
+                    console.warn(`Skipping empty array for type: ${buildingType}`); // Debugging
+                    createTroopTable(buildingType, [{ Message: "No data available" }]); // Add placeholder
+                } else {
+                    console.log(`Processing building type: ${buildingType}`); // Debugging
+                    createTroopTable(buildingType, buildingData[buildingType]);
+                }
+            } else {
+                console.warn(`Skipping non-array data for type: ${buildingType}`, buildingData[buildingType]); // Debugging
+            }
+        }
+
+        // Process trap data (if needed)
+        for (const trapType in trapData) {
+            if (Array.isArray(trapData[trapType])) {
+                if (trapData[trapType].length === 0) {
+                    console.warn(`Skipping empty array for type: ${trapType}`); // Debugging
+                    createTroopTable(trapType, [{ Message: "No data available" }]); // Add placeholder
+                } else {
+                    console.log(`Processing trap type: ${trapType}`); // Debugging
+                    createTroopTable(trapType, trapData[trapType]);
+                }
+            } else {
+                console.warn(`Skipping non-array data for type: ${trapType}`, trapData[trapType]); // Debugging
+            }
+        }
 
         console.log("Data loaded and tables populated successfully!"); // Debugging
     } catch (error) {
@@ -95,63 +145,6 @@ async function loadData() {
     }
 }
 
-// Function to process and display data
-function processData(data, category) {
-    const groupedData = data.reduce((acc, row) => {
-        const key = `${row.type}-${row.level}`;
-        if (!acc[key]) {
-            acc[key] = { type: row.type, level: row.level, data: {} };
-        }
-        acc[key].data[row.key] = row.value;
-        return acc;
-    }, {});
-
-    // Create tables
-    for (const key in groupedData) {
-        const { type, level, data } = groupedData[key];
-        createDataTable(type, level, data, category);
-    }
-}
-
-// Function to create a table
-function createDataTable(type, level, data, category) {
-    const section = document.createElement('div');
-    section.className = 'section';
-
-    const header = document.createElement('h3');
-    header.textContent = `${type} (Level ${level})`;
-    section.appendChild(header);
-
-    const table = document.createElement('table');
-    table.className = 'table table-striped';
-
-    const tableHead = document.createElement('thead');
-    const tableBody = document.createElement('tbody');
-
-    const headers = Object.keys(data);
-    const headerRow = document.createElement('tr');
-    headers.forEach(header => {
-        const th = document.createElement('th');
-        th.textContent = header;
-        headerRow.appendChild(th);
-    });
-    tableHead.appendChild(headerRow);
-
-    const row = document.createElement('tr');
-    headers.forEach(header => {
-        const cell = document.createElement('td');
-        cell.textContent = data[header] || 'N/A';
-        row.appendChild(cell);
-    });
-    tableBody.appendChild(row);
-
-    table.appendChild(tableHead);
-    table.appendChild(tableBody);
-    section.appendChild(table);
-
-    const container = document.getElementById('troops-container');
-    container.appendChild(section);
-}
-
 // Load data when the page loads
 window.onload = loadData;
+
