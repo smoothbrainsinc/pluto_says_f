@@ -1,5 +1,5 @@
 .container #troops-container .section {
-    background-color: pink;
+    background-color: #7bc2e7;
     border-radius: 10px;
     max-width: 600px;
     height: auto;
@@ -8,7 +8,7 @@
 /*  This is for troop name.  */
 .container  #troops-container .section h3 {
 /*    background-color: #c7d3fc;  */
-    
+    vertical-align: middle;
     text-align: center;
     border-radius: 10px;
     color: #021e85;
@@ -17,19 +17,22 @@
 
 /*  This is for table header. It styles the headers each individually.  */
 .container #troops-container .section table thead tr th {
-    background-color: silver;
-    border: 2px solid gray;
-    color: #021e85;
-    text-shadow: 0px 0px 1px black, 1px 1px 2px #ffffff; 
+    background-color: #056cb9;
+    border: 2px solid #373538;
+ /*   color: #021e85;  */
+    color: #ffffff;
+    text-shadow: 0px 1px 1px #021e85, 1px 1px 2px #000000; 
     font-size: 16px;
 }  
 
 /*  This is for the data in the table. It will style each datapoint individually  */
 .container #troops-container .section table tbody tr td {
-    background-color: #abbcfb;
+    background-color: DodgerBlue;
     text-align: center;
     border: 1px solid blue;  
-    font-size: 12px
-   
+    
+    font-size: 12px;
+    
+
 }
 
