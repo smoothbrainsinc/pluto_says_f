@@ -9,9 +9,9 @@ function createTroopTable(troopType, data) {
     // Create a header for the troop type
     const header = document.createElement("h3");
     header.textContent = troopType;
-    header.style.textAlign = "center";
-    header.style.fontSize = "2rem";
-    header.style.marginBottom = "1rem";
+//    header.style.textAlign = "center";
+//    header.style.fontSize = "2rem";
+//    header.style.marginBottom = "1rem";
     section.appendChild(header);
 
     // Create a table element
