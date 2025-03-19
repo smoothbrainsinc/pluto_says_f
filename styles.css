@@ -55,3 +55,37 @@ p {
     color: #666;
 }
 
+.outerActivity{
+    display: flexbox;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+.activity1 {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;    
+    font-size: 10rem;
+    color: #ffffaa;
+    text-shadow: -1px 1px 3px blue,
+                  1px -1px 3px blue,
+                 -1px -1px 3px blue,
+                  1px 1px 3px blue;
+    border: 3px double black;
+    border-bottom: none;
+}
+.activity2 {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;    
+    font-size: 10rem;
+    color: #ffffaa;
+    text-shadow: -1px 1px 3px blue,
+                  1px -1px 3px blue,
+                 -1px -1px 3px blue,
+                  1px 1px 3px blue;
+    border: 3px double black;
+    border-top: none;
+}
