@@ -77,7 +77,7 @@ p {
                   1px -1px 10px red,
                  -1px -1px 10px yellow,
                   1px 1px 20px yellow;
-}
+
     border: 3px double black;
     border-bottom: none;
 }
