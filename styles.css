@@ -77,10 +77,8 @@ p {
                   1px -1px 10px red,
                  -1px -1px 10px yellow,
                   1px 1px 20px yellow;
-
-    border: 3px double black;
-    border-bottom: none;
 }
+
 .activity2 {
     margin: 0px;
     padding: 0px;
@@ -95,6 +93,5 @@ p {
                   1px -1px 1px black,
                  -1px -1px 1px black,
                   1px 1px 1px black;
-    border: 3px double black;
-    border-top: none;
+
 }
