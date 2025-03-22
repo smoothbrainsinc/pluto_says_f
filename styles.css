@@ -68,11 +68,16 @@ p {
     padding: 0px;
     text-align: center;    
     font-size: 10rem;
-    color: #ffffaa;
-    text-shadow: -1px 1px 3px blue,
+    color: #ffffff;
+    text-shadow:/* -1px 1px 3px blue,
                   1px -1px 3px blue,
                  -1px -1px 3px blue,
-                  1px 1px 3px blue;
+                  1px 1px 3px blue,*/
+                  -1px 1px 10px orange,
+                  1px -1px 10px red,
+                 -1px -1px 10px yellow,
+                  1px 1px 20px yellow;
+}
     border: 3px double black;
     border-bottom: none;
 }
@@ -82,10 +87,14 @@ p {
     text-align: center;    
     font-size: 10rem;
     color: #ffffaa;
-    text-shadow: -1px 1px 3px blue,
+    text-shadow: /*-1px 1px 3px blue,
                   1px -1px 3px blue,
                  -1px -1px 3px blue,
-                  1px 1px 3px blue;
+                  1px 1px 3px blue,*/
+                  -1px 1px 1px black,
+                  1px -1px 1px black,
+                 -1px -1px 1px black,
+                  1px 1px 1px black;
     border: 3px double black;
     border-top: none;
 }
