@@ -1,43 +1,50 @@
-/* ==================== */
-/* CUSTOM FONTS         */
-/* ==================== */
 @font-face {
   font-family: 'Slaytanic';
   src: url('Slaytanic.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'OpenDyslexic-Regular';
+  src: url('OpenDyslexic-Regular.woff') format('woff'), /* Preferred modern format */
+       url('Z003-MediumItalic.pfb') format('truetype'); /* Fallback */
+}
 
-/* ==================== */
-/* BASE STYLES          */
-/* ==================== */
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #360062;
+  margin: 20;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  border: 5px solid navy;
 }
 
 .container {
+    display: block;
+    text-align: center;
+    border: 3px solid pink;
+    width: 800px;
+    height: auto;
+    background-color: #360062;
+}
+.header {
+    font-family: 'OpenDyslexic-Regular';
+    color: gold;
+    border: 7px solid cyan;
+}
+
+.none {
   display: flex;
+  margin: 10px;
   justify-content: center;
-  align-items: center;
-  position: relative;
 }
 
 .crosses {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border: 4px solid green;
 }
 
 .cross-left, .cross-right {
-  font-family: 'Slaytanic', sans-serif;
+  font-family: 'Slaytanic';
   color: white;
   font-size: 3rem;
-  margin: 1rem;
   text-shadow: 
     -1px 0px 1px #990066,
     0px -1px 1px #990066,
@@ -53,14 +60,9 @@ body {
   animation: spin-right 6s linear infinite reverse;
 }
 
-.god {
-  position: relative;
-  z-index: 2;
-}
-
-h2 {
+h1 {
   color: white;
-  font-family: 'Z003', sans-serif;
+  font-family: 'OpenDyslexic-Regular';
   text-shadow: 
     0px -1px 1px #990066,
     -1px 0px 1px #990066,
@@ -68,53 +70,29 @@ h2 {
     0px 1px 1px #990066;
   font-size: 2.5rem;
   margin: 0;
-  padding: 15px;
   animation: pulse 4s ease-in-out infinite alternate;
 }
 
-.background-creep {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: creep 8s ease-in-out infinite alternate;
-  z-index: 1;
-  opacity: 0.2;
-}
+
 
 /* ==================== */
 /* ANIMATIONS           */
 /* ==================== */
 @keyframes spin-left {
-  from { transform: rotateY(0deg) scale(1); }
-  to { transform: rotateY(-360deg)  scale(1.3); }
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-360deg); }
 }
 
 @keyframes spin-right {
-  from { transform: rotateY(0deg) scale(1); }
-  to { transform: rotateY(360deg) scale(1.3); }
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
 }
 
 @keyframes pulse {
   0% {
-    transform: scale(1);
-    text-shadow: 
-      0px -1px 1px #990066,
-      -1px 0px 1px #990066,
-      1px 0px 1px #990066,
-      0px 1px 1px #990066;
-  }
+    transform: scale(1); }
   100% {
     transform: scale(1.05);
-    text-shadow: 
-      0px -1px 3px #990066,
-      -1px 0px 3px #990066,
-      1px 0px 3px #990066,
-      0px 1px 3px #990066;
   }
 }
 
@@ -127,7 +105,13 @@ h2 {
   .cross-left, .cross-right {
     font-size: 2rem;
   }
-  h2 {
+  h1 {
     font-size: 1.5rem;
   }
 }
+
+/*
+div { border: 2px solid red; }
+[class] { border: 2px solid blue; }
+[id] { border: 2px solid green; }
+*/
