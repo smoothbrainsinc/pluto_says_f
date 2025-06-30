@@ -8,10 +8,6 @@
        url('Z003-MediumItalic.pfb') format('truetype');
 }
 
-html {
-  font-size: calc(12px + 0.5vw);
-}
-
 body {
   margin: 0;
   min-height: 100vh;
@@ -46,7 +42,6 @@ body {
   margin: 10px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
 }
 
 .cross-left, .cross-right {
@@ -61,6 +56,27 @@ body {
   margin: 0 10px;
 }
 
+.cross-left {
+  animation: spin-left 8s linear infinite;
+}
+
+.cross-right {
+  animation: spin-right 6s linear infinite reverse;
+}
+
+h1 {
+  color: white;
+  font-family: 'OpenDyslexic-Regular';
+  text-shadow: 
+    0px -1px 1px #990066,
+    -1px 0px 1px #990066,
+    1px 0px 1px #990066,
+    0px 1px 1px #990066;
+  font-size: 2.5rem;
+  margin: 0 15px;
+  animation: pulse 4s ease-in-out infinite alternate;
+}
+
 #randomImage {
   max-width: 100%;
   height: auto;
@@ -68,8 +84,27 @@ body {
   margin: 10px auto;
 }
 
-/* Animations remain the same */
+/* ==================== */
+/* ANIMATIONS           */
+/* ==================== */
+@keyframes spin-left {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(-360deg); }
+}
 
+@keyframes spin-right {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+/* ==================== */
+/* MOBILE RESPONSIVENESS */
+/* ==================== */
 @media (max-width: 768px) {
   .container {
     width: 100%;
@@ -77,31 +112,31 @@ body {
   }
   
   .cross-left, .cross-right {
-    font-size: 1.5rem;
+    font-size: 2rem;
     margin: 0 5px;
   }
   
   h1 {
-    font-size: 1.2rem;
-    margin: 0 5px;
+    font-size: 1.5rem;
+    margin: 0 10px;
     white-space: nowrap;
   }
   
   .header {
-    font-size: 1.2rem;
-  }
-  
-  .none {
-    flex-direction: column;
+    font-size: 1.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .cross-left, .cross-right {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
   }
   
   h1 {
-    font-size: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .header {
+    font-size: 1.2rem;
   }
 }
