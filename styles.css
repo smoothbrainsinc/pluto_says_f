@@ -40,7 +40,9 @@ body {
 p {
     font-family: Slaytanic;
     font-weight: bold;
-      text-shadow: 
+      text-shadow:
+      -5px -5px 30px #660000, 
+      5px 5px 10px #660000,
     -1px 0px 1px black,
     0px -1px 1px black,
     1px -1px 1px black,
