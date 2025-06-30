@@ -4,45 +4,39 @@
 }
 @font-face {
   font-family: 'OpenDyslexic-Regular';
-  src: url('OpenDyslexic-Regular.woff') format('woff'),
-       url('Z003-MediumItalic.pfb') format('truetype');
+  src: url('OpenDyslexic-Regular.woff') format('woff'), /* Preferred modern format */
+       url('Z003-MediumItalic.pfb') format('truetype'); /* Fallback */
 }
 
 body {
-  margin: 0;
+  margin: 20;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #360062;
 }
 
 .container {
     display: block;
     text-align: center;
     width: 800px;
-    max-width: 95%;
-    margin: 0 auto;
     height: auto;
     background-color: #360062;
-    padding: 20px;
-    box-sizing: border-box;
 }
-
 .header {
     font-family: 'OpenDyslexic-Regular';
     color: gold;
     font-size: 2rem;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
 }
 
 .none {
   display: flex;
   margin: 10px;
   justify-content: center;
-  align-items: center;
 }
+
 
 .cross-left, .cross-right {
   font-family: 'Slaytanic';
@@ -53,7 +47,6 @@ body {
     0px -1px 1px #990066,
     1px -1px 1px #990066,
     -1px 1px 1px #990066;
-  margin: 0 10px;
 }
 
 .cross-left {
@@ -73,16 +66,11 @@ h1 {
     1px 0px 1px #990066,
     0px 1px 1px #990066;
   font-size: 2.5rem;
-  margin: 0 15px;
+  margin: 0;
   animation: pulse 4s ease-in-out infinite alternate;
 }
 
-#randomImage {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 10px auto;
-}
+
 
 /* ==================== */
 /* ANIMATIONS           */
@@ -98,35 +86,29 @@ h1 {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.05); }
+  0% {
+    transform: scale(1); }
+  100% {
+    transform: scale(1.05);
+  }
 }
 
+
+
 /* ==================== */
-/* ONLY WHAT'S NEEDED FOR MOBILE */
+/* MOBILE RESPONSIVENESS */
 /* ==================== */
 @media (max-width: 768px) {
-  .container {
-    width: 95%; /* Slightly smaller container */
-    padding: 10px;
-  }
-  
-  /* Just make elements proportionally smaller */
   .cross-left, .cross-right {
-    font-size: 2rem; /* Down from 3rem */
+    font-size: 2rem;
   }
-  
   h1 {
-    font-size: 1.8rem; /* Down from 2.5rem */
-  }
-  
-  .header {
-    font-size: 1.5rem; /* Down from 2rem */
-  }
-  
-  /* Make sure image doesn't overflow */
-  #randomImage {
-    max-width: 90%;
-    height: auto;
+    font-size: 1.5rem;
   }
 }
+
+/*
+div { border: 2px solid red; }
+[class] { border: 2px solid blue; }
+[id] { border: 2px solid green; }
+*/
