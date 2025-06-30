@@ -103,40 +103,30 @@ h1 {
 }
 
 /* ==================== */
-/* MOBILE RESPONSIVENESS */
+/* ONLY WHAT'S NEEDED FOR MOBILE */
 /* ==================== */
 @media (max-width: 768px) {
   .container {
-    width: 100%;
+    width: 95%; /* Slightly smaller container */
     padding: 10px;
   }
   
+  /* Just make elements proportionally smaller */
   .cross-left, .cross-right {
-    font-size: 2rem;
-    margin: 0 5px;
+    font-size: 2rem; /* Down from 3rem */
   }
   
   h1 {
-    font-size: 1.5rem;
-    margin: 0 10px;
-    white-space: nowrap;
+    font-size: 1.8rem; /* Down from 2.5rem */
   }
   
   .header {
-    font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .cross-left, .cross-right {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /* Down from 2rem */
   }
   
-  h1 {
-    font-size: 1.2rem;
-  }
-  
-  .header {
-    font-size: 1.2rem;
+  /* Make sure image doesn't overflow */
+  #randomImage {
+    max-width: 90%;
+    height: auto;
   }
 }
