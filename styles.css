@@ -36,6 +36,18 @@ body {
     padding: 10px;
 }
 
+
+p {
+    font-family: Slaytanic;
+    font-weight: bold;
+      text-shadow: 
+    -1px 0px 1px black,
+    0px -1px 1px black,
+    1px -1px 1px black,
+    -1px 1px 1px black;
+    font-size: 3rem;
+}
+
 .none {
   display: flex;
   margin: 10px;
