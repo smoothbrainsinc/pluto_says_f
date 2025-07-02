@@ -162,83 +162,50 @@ h1 {
 }
 
 
-
 /* ==================== */
-/* MOBILE RESPONSIVENESS */
+/* MOBILE FIXES THAT ACTUALLY WORK */
 /* ==================== */
 @media (max-width: 768px) {
   body {
-    background-attachment: scroll;
-    height: 100%;
-    min-height: 100vh;
-  }
-  
-  .cross-left, .cross-right {
-    font-size: 2rem;
-    /* More visible mobile flame effect */
-    text-shadow: 
-      -1px 0px 2px black,
-      0px -1px 2px black,
-      1px -1px 2px black,
-      -1px 1px 2px black,
-      0 0 10px rgba(255, 200, 0, 0.9),
-      0 0 15px rgba(255, 100, 0, 0.8),
-      0 0 25px rgba(255, 69, 0, 0.7) !important; /* Force override */
-    
-    /* Stronger mobile flicker */
-    animation: flicker-mobile 1.5s ease-in-out infinite alternate;
+    background-attachment: scroll !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
-  h1 {
-    font-size: 1.5rem;
+  .container {
+    min-height: 100vh !important;
+    justify-content: space-between !important;
+    padding: 10px !important;
   }
-  
-  /* Remove the nested @media query and place these directly */
-  .cross-left {
-    animation: spin-left 12s linear infinite;
+
+  .header {
+    margin-top: 10px !important;
+    padding-top: 0 !important;
   }
-  
+
+  .crosses {
+    background-color: white !important;
+    margin-top: auto !important;
+    padding: 10px !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+  }
+
+  .cross-left, 
   .cross-right {
-    animation: spin-right 8s linear infinite reverse;
+    font-size: 2rem !important;
+    text-shadow: 
+      -1px 0px 2px black,
+      0px -1px 2px black,
+      1px -1px 2px black,
+      -1px 1px 2px black,
+      0 0 10px orange,
+      0 0 15px red,
+      0 0 20px darkred !important;
+    animation: none !important; /* Disable if causing issues */
   }
-  
+
   h1 {
-    animation: pulse-mobile 3s ease-in-out infinite alternate;
+    font-size: 1.5rem !important;
   }
-}
-
-/* Mobile-specific keyframes */
-@keyframes flicker-mobile {
-  0%, 100% {
-    text-shadow: 
-      -1px 0px 2px black,
-      0px -1px 2px black,
-      1px -1px 2px black,
-      -1px 1px 2px black,
-      0 0 10px rgba(255, 200, 0, 0.9),
-      0 0 15px rgba(255, 100, 0, 0.8),
-      0 0 25px rgba(255, 69, 0, 0.7) !important;
-  }
-  50% {
-    text-shadow: 
-      -1px 0px 2px black,
-      0px -1px 2px black,
-      1px -1px 2px black,
-      -1px 1px 2px black,
-      0 0 15px rgba(255, 220, 0, 0.95),
-      0 0 20px rgba(255, 120, 0, 0.85),
-      0 0 30px rgba(255, 80, 0, 0.75) !important;
-  }
-}
-
-@keyframes pulse-mobile {
-  0% { transform: scale(0.95); }
-  100% { transform: scale(1); }
-}
-
-/* Prevent mobile browsers from zooming */
-html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  touch-action: manipulation;
 }

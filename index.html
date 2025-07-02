@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="styles.css">
     <title>Pluto Says F</title>
 </head>
@@ -22,6 +22,26 @@
         </div>
         
     </div>
+    <script>
+// Mobile detection and style forcing
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+  document.querySelector('.crosses').style.backgroundColor = 'white';
+  document.body.style.backgroundAttachment = 'scroll';
+  
+  // Force text shadows if still not showing
+  const crosses = document.querySelectorAll('.cross-left, .cross-right');
+  crosses.forEach(cross => {
+    cross.style.textShadow = `
+      -1px 0px 2px black,
+      0px -1px 2px black,
+      1px -1px 2px black,
+      -1px 1px 2px black,
+      0 0 10px rgba(255, 200, 0, 0.9),
+      0 0 15px rgba(255, 100, 0, 0.8),
+      0 0 25px rgba(255, 69, 0, 0.7)`;
+  });
+}
+</script>
     <script src="scripts.js"></script>
 
 </body>
