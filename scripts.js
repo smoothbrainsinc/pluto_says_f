@@ -18,3 +18,9 @@ if (imgElement) {
   imgElement.src = "images/" + randomImage;
 }
 
+document.body.style.backgroundImage = `url('images/${randomImage}')`;
+document.body.style.backgroundSize = 'cover';
+document.body.style.backgroundPosition = 'center';
+document.body.style.backgroundRepeat = 'no-repeat';
+document.body.style.backgroundAttachment = 'fixed';
+

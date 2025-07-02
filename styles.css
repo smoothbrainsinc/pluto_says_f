@@ -9,45 +9,42 @@
 }
 
 body {
-  margin: 20;
+  margin: 20px 0;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
 .container {
-    display: block;
-    text-align: center;
-    width: 800px;
-    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 
 }
 .header {
     font-family: 'OpenDyslexic-Regular';
-    color: gold;
     font-size: 2rem;
-    margin: 0px;
+    margin: 5px 0;
     padding: 0px;
+    text-align: center;
 }
-
-#myHeading {
-
-    padding: 10px;
-}
-
 
 p {
     font-family: Slaytanic;
-    font-weight: bold;
-      text-shadow:
-      -5px -5px 30px #660000, 
-      5px 5px 10px #660000,
-    -1px 0px 1px black,
-    0px -1px 1px black,
-    1px -1px 1px black,
-    -1px 1px 1px black;
-    font-size: 3rem;
+    color: lightblue;
+    font-size: 2.5rem;
+    text-shadow:
+        -5px -5px 30px #660000, 
+        5px 5px 10px #660000,
+        -1px 0px 1px black,
+        0px -1px 1px black,
+        1px -1px 1px black,
+       -1px 1px 1px black;
+    margin: 0;
 }
 
 .none {
@@ -55,7 +52,9 @@ p {
   margin: 10px;
   justify-content: center;
 }
-
+.crosses {
+    background-color: white;
+}
 
 .cross-left, .cross-right {
   font-family: 'Slaytanic';
@@ -66,11 +65,51 @@ p {
     -1px 0px 1px black,
     0px -1px 1px black,
     1px -1px 1px black,
-    -1px 1px 1px black;
+    -1px 1px 1px black,
+    
+    /* Enhanced fiery glow effect with yellow and more layers */
+    0 0 8px rgba(255, 200, 0, 0.9),        /* Bright yellow core */
+    0 0 12px rgba(255, 100, 0, 0.8),       /* Orange middle layer */
+    0 0 25px rgba(255, 69, 0, 0.7),        /* Darker orange outer */
+    0 -5px 15px rgba(255, 50, 0, 0.6),     /* Upward flame */
+    0 -10px 30px rgba(255, 30, 0, 0.5),    /* Larger blur */
+    0 -15px 45px rgba(255, 20, 0, 0.4);    /* Maximum blur */
+  
+  /* Faster, more intense flickering animation */
+  animation: flicker 1.5s ease-in-out infinite alternate;
 }
 
+@keyframes flicker {
+  0%, 10%, 12%, 14%, 16%, 30%, 32%, 100% {
+    text-shadow: 
+      -1px 0px 1px black,
+      0px -1px 1px black,
+      1px -1px 1px black,
+      -1px 1px 1px black,
+      0 0 8px rgba(255, 200, 0, 0.9),
+      0 0 12px rgba(255, 100, 0, 0.8),
+      0 0 25px rgba(255, 69, 0, 0.7),
+      0 -5px 15px rgba(255, 50, 0, 0.6),
+      0 -10px 30px rgba(255, 30, 0, 0.5),
+      0 -15px 45px rgba(255, 20, 0, 0.4);
+  }
+  11%, 13%, 15%, 31% {
+    text-shadow: 
+      -1px 0px 1px black,
+      0px -1px 1px black,
+      1px -1px 1px black,
+      -1px 1px 1px black,
+      0 0 12px rgba(255, 220, 0, 0.95),    /* Brighter yellow */
+      0 0 18px rgba(255, 120, 0, 0.85),    /* More intense orange */
+      0 0 35px rgba(255, 80, 0, 0.75),     /* Expanded glow */
+      0 -8px 20px rgba(255, 60, 0, 0.65),  /* Taller flames */
+      0 -15px 40px rgba(255, 40, 0, 0.55), /* Wider spread */
+      0 -20px 60px rgba(255, 25, 0, 0.45); /* Maximum expansion */
+  }
+}
 .cross-left {
   animation: spin-left 8s linear infinite;
+
 }
 
 .cross-right {
