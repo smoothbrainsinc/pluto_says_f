@@ -15,6 +15,15 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background-color: #000; /* Fallback color */
+  background-image: url('images/fallback.jpg'); /* Fallback image */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-background-size: cover; /* For older mobile browsers */
+  -moz-background-size: cover;
+  -o-background-size: cover;
 }
 
 .container {
@@ -158,6 +167,11 @@ h1 {
 /* MOBILE RESPONSIVENESS */
 /* ==================== */
 @media (max-width: 768px) {
+ body {
+    background-attachment: scroll;
+    height: 100%;
+    min-height: 100vh;
+  }
   .cross-left, .cross-right {
     font-size: 2rem;
   }
