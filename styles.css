@@ -167,82 +167,78 @@ h1 {
 /* MOBILE RESPONSIVENESS */
 /* ==================== */
 @media (max-width: 768px) {
- body {
+  body {
     background-attachment: scroll;
     height: 100%;
     min-height: 100vh;
   }
+  
   .cross-left, .cross-right {
     font-size: 2rem;
+    /* More visible mobile flame effect */
+    text-shadow: 
+      -1px 0px 2px black,
+      0px -1px 2px black,
+      1px -1px 2px black,
+      -1px 1px 2px black,
+      0 0 10px rgba(255, 200, 0, 0.9),
+      0 0 15px rgba(255, 100, 0, 0.8),
+      0 0 25px rgba(255, 69, 0, 0.7) !important; /* Force override */
+    
+    /* Stronger mobile flicker */
+    animation: flicker-mobile 1.5s ease-in-out infinite alternate;
   }
+
   h1 {
     font-size: 1.5rem;
   }
-   text-shadow: 
-      -1px 0px 1px black,
-      0px -1px 1px black,
-      1px -1px 1px black,
-      -1px 1px 1px black,
-      0 0 8px rgba(255, 200, 0, 0.9),
-      0 0 12px rgba(255, 100, 0, 0.8),
-      0 0 20px rgba(255, 69, 0, 0.7);
-    
-    /* Simpler flicker for mobile performance */
-    animation: flicker-mobile 2s ease-in-out infinite alternate;
+  
+  /* Remove the nested @media query and place these directly */
+  .cross-left {
+    animation: spin-left 12s linear infinite;
   }
+  
+  .cross-right {
+    animation: spin-right 8s linear infinite reverse;
+  }
+  
+  h1 {
+    animation: pulse-mobile 3s ease-in-out infinite alternate;
+  }
+}
 
-  @keyframes flicker-mobile {
-    0%, 100% {
-      text-shadow: 
-        -1px 0px 1px black,
-        0px -1px 1px black,
-        1px -1px 1px black,
-        -1px 1px 1px black,
-        0 0 8px rgba(255, 200, 0, 0.9),
-        0 0 12px rgba(255, 100, 0, 0.8),
-        0 0 20px rgba(255, 69, 0, 0.7);
-    }
-    50% {
-      text-shadow: 
-        -1px 0px 1px black,
-        0px -1px 1px black,
-        1px -1px 1px black,
-        -1px 1px 1px black,
-        0 0 10px rgba(255, 220, 0, 0.95),
-        0 0 15px rgba(255, 120, 0, 0.85),
-        0 0 25px rgba(255, 80, 0, 0.75);
-    }
+/* Mobile-specific keyframes */
+@keyframes flicker-mobile {
+  0%, 100% {
+    text-shadow: 
+      -1px 0px 2px black,
+      0px -1px 2px black,
+      1px -1px 2px black,
+      -1px 1px 2px black,
+      0 0 10px rgba(255, 200, 0, 0.9),
+      0 0 15px rgba(255, 100, 0, 0.8),
+      0 0 25px rgba(255, 69, 0, 0.7) !important;
   }
+  50% {
+    text-shadow: 
+      -1px 0px 2px black,
+      0px -1px 2px black,
+      1px -1px 2px black,
+      -1px 1px 2px black,
+      0 0 15px rgba(255, 220, 0, 0.95),
+      0 0 20px rgba(255, 120, 0, 0.85),
+      0 0 30px rgba(255, 80, 0, 0.75) !important;
+  }
+}
+
+@keyframes pulse-mobile {
+  0% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
 /* Prevent mobile browsers from zooming */
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   touch-action: manipulation;
 }
-
-/* Optimize animations for mobile */
-@media (max-width: 768px) {
-  .cross-left {
-    animation: spin-left 12s linear infinite; /* Slower spin for mobile */
-  }
-  
-  .cross-right {
-    animation: spin-right 8s linear infinite reverse; /* Slower spin */
-  }
-  
-  h1 {
-    animation: pulse-mobile 5s ease-in-out infinite alternate;
-  }
-  
-  @keyframes pulse-mobile {
-    0% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-  }
-}
-}
-
-/*
-div { border: 2px solid red; }
-[class] { border: 2px solid blue; }
-[id] { border: 2px solid green; }
-*/
