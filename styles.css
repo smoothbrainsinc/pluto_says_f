@@ -193,7 +193,6 @@ h1 {
 
   .cross-left, 
   .cross-right {
-    font-size: 2rem !important;
     text-shadow: 
       -1px 0px 2px black,
       0px -1px 2px black,
@@ -202,7 +201,7 @@ h1 {
       0 0 10px orange,
       0 0 15px red,
       0 0 20px darkred !important;
-    animation: none !important; /* Disable if causing issues */
+
   }
 
   h1 {
