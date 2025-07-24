@@ -41,6 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Leaderboard data
     let leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
 
+    // Detect if #gameArea is rotated (portrait mobile)
+    let isRotated = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
+
+    // Listen for orientation or size changes to update rotation state
+    window.matchMedia("(max-width: 768px) and (orientation: portrait)").addEventListener('change', e => {
+      isRotated = e.matches;
+    });
+
     function randomPosition() {
       const maxX = gameArea.clientWidth - targetSize.width;
       const maxY = gameArea.clientHeight - targetSize.height;
@@ -124,6 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
       gameArea.appendChild(effect);
       setTimeout(() => effect.remove(), 400);
     }
+    
+    // Transform pointer coords to compensate for 90deg rotation clockwise on mobile portrait
+    function transformPointerCoords(x, y, area) {
+      const width = area.clientWidth;
+      return {
+        x: y,
+        y: width - x
+      };
+    }
 
     function getHitboxScale() {
       const shrinkSteps = Math.floor(score / 50);
@@ -139,8 +156,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!running) return;
 
       const rect = gameArea.getBoundingClientRect();
-      const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
-      const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
+      let x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
+      let y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
+
+      if (isRotated) {
+        const transformed = transformPointerCoords(x, y, gameArea);
+        x = transformed.x;
+        y = transformed.y;
+      }
 
       let hitTarget = false;
 
