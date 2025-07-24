@@ -1,39 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="styles.css">
-    <title>Pluto Says F</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>Pluto Says F - Duck Hunt Game</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-    
+  <div class="container">
+    <h1>Pluto Says F - Duck Hunt</h1>
 
-<div id="scoreBox">
-  Score: <span id="score">0</span>
-  <button id="toggleGameBtn" style="margin-left:10px; padding:5px 10px;">Stop</button>
-</div>
-<div id="gameArea"></div>
-
-
-    
-    
-        <div class="header">
-            <a href="page2.html" ><button>Jar-Opening Existential Dread</button></a>
-        </div>
-        
-        <div class="crosses">
-          <div class="none">
-            <span class="cross-left">1 </span>
-            <h1 id="myHeading">God Hates You</h1>            
-            <span class="cross-right"> 1</span>
-          </div>
-        </div>
-        
+    <div id="scoreBox">
+      Score: <span id="score">0</span>
+      <button id="toggleGameBtn" style="margin-left:10px; padding:5px 10px;">Stop</button>
     </div>
+    <div id="timerBox">Time Left: <span id="timer">60</span>s</div>
 
-    <script src="scripts.js"></script>
+    <div id="gameArea" tabindex="0" aria-label="Game area - shoot the targets"></div>
 
+    <div id="leaderboardContainer" class="hidden">
+      <h2>Top 10 High Scores</h2>
+      <table id="leaderboardTable" aria-label="Leaderboard table">
+        <thead>
+          <tr>
+            <th>Rank</th><th>Initials</th><th>Score</th><th>3pt</th><th>2pt</th><th>1pt</th><th>Misses</th><th>Date</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button id="restartBtn">Play Again</button>
+    </div>
+  </div>
+
+  <!-- Audio elements for hit/miss sounds -->
+  <audio id="hitSound" src="hit.mp3" preload="auto"></audio>
+  <audio id="missSound" src="miss.mp3" preload="auto"></audio>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
+
