@@ -69,16 +69,17 @@ button:hover, button:focus {
   background: #fa0;
 }
 
-@media (max-width: 768px) and (orientation: portrait) {
+@media (max-width: 600px) {
   #gameArea {
-    width: 60vh;      /* swap relative width */
-    height: 95vw;     /* swap relative height */
-    transform: rotate(90deg);
-    transform-origin: center center;
-    margin: auto;
+    height: 60vw;
+  }
+  .target {
+    width: 22vw;
+    height: 32vw;
+    max-width: none;
+    max-height: none;
   }
 }
-
 
 /* Hit and Miss Visual Effects */
 @keyframes pop {

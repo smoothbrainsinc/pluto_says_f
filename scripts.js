@@ -1,7 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile style fixes for flame crosses or other UI not shown here
-  // (Keep if needed, else you can remove)
+  // Mobile style fixes (same as your existing code)
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    const crossesElement = document.querySelector('.crosses');
+    if (crossesElement) crossesElement.style.backgroundColor = 'white';
+    document.body.style.backgroundAttachment = 'scroll';
 
+    document.querySelectorAll('.cross-left, .cross-right').forEach(cross => {
+      cross.style.textShadow = `
+        -1px 0px 2px black,
+        0px -1px 2px black,
+        1px -1px 2px black,
+        -1px 1px 2px black,
+        0 0 10px rgba(255, 200, 0, 0.9),
+        0 0 15px rgba(255, 100, 0, 0.8),
+        0 0 25px rgba(255, 69, 0, 0.7)`;
+    });
+  }
+
+ 
   const game = (() => {
     const totalTargets = 118;
     const images = [];
@@ -40,14 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Leaderboard data
     let leaderboard = JSON.parse(localStorage.getItem('leaderboard') || '[]');
-
-    // Detect if #gameArea is rotated (portrait mobile)
-    let isRotated = window.matchMedia("(max-width: 768px) and (orientation: portrait)").matches;
-
-    // Listen for orientation or size changes to update rotation state
-    window.matchMedia("(max-width: 768px) and (orientation: portrait)").addEventListener('change', e => {
-      isRotated = e.matches;
-    });
 
     function randomPosition() {
       const maxX = gameArea.clientWidth - targetSize.width;
@@ -132,15 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
       gameArea.appendChild(effect);
       setTimeout(() => effect.remove(), 400);
     }
-    
-    // Transform pointer coords to compensate for 90deg rotation clockwise on mobile portrait
-    function transformPointerCoords(x, y, area) {
-      const width = area.clientWidth;
-      return {
-        x: y,
-        y: width - x
-      };
-    }
 
     function getHitboxScale() {
       const shrinkSteps = Math.floor(score / 50);
@@ -156,14 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!running) return;
 
       const rect = gameArea.getBoundingClientRect();
-      let x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
-      let y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
-
-      if (isRotated) {
-        const transformed = transformPointerCoords(x, y, gameArea);
-        x = transformed.x;
-        y = transformed.y;
-      }
+      const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
+      const y = (event.touches ? event.touches[0].clientY : event.clientY) - rect.top;
 
       let hitTarget = false;
 
@@ -369,4 +362,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   game.init();
 });
-
