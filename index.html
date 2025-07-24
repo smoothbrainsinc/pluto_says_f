@@ -9,8 +9,37 @@
 <body>
     <div class="container">
     
+<style>
+  #gameArea {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background: #cceeff;
+    border: 2px solid #333;
+    margin: 2em auto;
+    cursor: crosshair;
+  }
+  .target {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    user-select: none;
+    transition: top 0.1s, left 0.1s;
+  }
+  #scoreBox {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
+</style>
+
+<div id="scoreBox">Score: <span id="score">0</span></div>
+<div id="gameArea"></div>
+
+    
+    
         <div class="header">
-            <p>Jar-Opening Existential Dread</p>
+            <a href="http://localhost/pluto_says_f/page2.html" ><button>Jar-Opening Existential Dread</button></a>
         </div>
         
         <div class="crosses">
