@@ -71,7 +71,7 @@ button:hover, button:focus {
 
 @media (max-width: 600px) {
   #gameArea {
-    width: 60vw;
+    height: 80vw;
   }
   .target {
     width: 22vw;
