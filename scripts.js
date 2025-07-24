@@ -19,6 +19,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+// Load your image filenames (example for 118 images)
+const images = [];
+for (let i = 1; i <= 118; i++) {
+  images.push(`targets/${i}.jpeg`);
+}
+
+const gameArea = document.getElementById('gameArea');
+const scoreDisplay = document.getElementById('score');
+let score = 0;
+let targetImg = null;
+
+// Helper: Random position within game area
+function randomPosition() {
+  const maxX = gameArea.clientWidth - 120;
+  const maxY = gameArea.clientHeight - 120;
+  return {
+    x: Math.floor(Math.random() * maxX),
+    y: Math.floor(Math.random() * maxY)
+  };
+}
+
+// Place a new random target
+function spawnTarget() {
+  if (targetImg) targetImg.remove();
+  
+  targetImg = document.createElement('img');
+  targetImg.src = images[Math.floor(Math.random() * images.length)];
+  targetImg.className = 'target';
+
+  const pos = randomPosition();
+  targetImg.style.left = pos.x + 'px';
+  targetImg.style.top = pos.y + 'px';
+
+  gameArea.appendChild(targetImg);
+}
+
+// Handle shooting (click events)
+gameArea.addEventListener('click', function(event) {
+  if (!targetImg) return;
+
+  const rect = gameArea.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  const targetX = parseFloat(targetImg.style.left);
+  const targetY = parseFloat(targetImg.style.top);
+
+  // Basic bounding box hit detection
+  if (
+    x >= targetX &&
+    x <= targetX + targetImg.width &&
+    y >= targetY &&
+    y <= targetY + targetImg.height
+  ) {
+    score++;
+    scoreDisplay.textContent = score;
+    spawnTarget();
+  }
+});
+
+// Start the game!
+spawnTarget();
+
+
 
 });
 
