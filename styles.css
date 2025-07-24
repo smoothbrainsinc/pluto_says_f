@@ -208,3 +208,26 @@ h1 {
     font-size: 1.5rem !important;
   }
 }
+
+  #gameArea {
+    position: relative;
+    width: 600px;
+    height: 450px;
+    background: #cceeff;
+    border: 2px solid #333;
+    margin: 2em auto;
+    cursor: crosshair;
+  }
+  .target {
+    position: absolute;
+    width: 128px;
+    height: 192px;
+    user-select: none;
+    transition: top 0.1s, left 0.1s;
+  }
+  #scoreBox {
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+  }
