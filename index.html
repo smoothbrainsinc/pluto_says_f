@@ -1,41 +1,189 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>Pluto Says F - Duck Hunt Game</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hesperia's trusted construction contractor specializing in home remodels, repairs, and renovations. Serving the High Desert since [YEAR].">
+    
+    <!-- Local Business Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HomeAndConstructionBusiness",
+      "name": "[Your Company Name]",
+      "image": "https://www.yourwebsite.com/logo.jpg",
+      "@id": "",
+      "url": "https://www.yourwebsite.com",
+      "telephone": "[Your Phone]",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "[Your Street Address]",
+        "addressLocality": "Hesperia",
+        "addressRegion": "CA",
+        "postalCode": "92345",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "34.4263889",
+        "longitude": "-117.3008784"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "opens": "07:00",
+        "closes": "17:00"
+      },
+      "priceRange": "$$"
+    }
+    </script>
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <title>[Company Name] | Hesperia, CA Construction & Remodeling Experts</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/css/styles.css" as="style">
+    <link rel="preload" href="/js/main.js" as="script">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Theme settings -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light dark">
 </head>
 <body>
-  <div class="container">
-
-    <div id="scoreBox">
-      Score: <span id="score">0</span>
-      <button id="toggleGameBtn" style="margin-left:10px; padding:5px 10px;">Stop</button>
-    </div>
-    <div id="timerBox">Time Left: <span id="timer">60</span>s</div>
-
-    <div id="gameArea" tabindex="0" aria-label="Game area - shoot the targets"></div>
-
-    <div id="leaderboardContainer" class="hidden">
-      <h2>Top 10 High Scores</h2>
-      <table id="leaderboardTable" aria-label="Leaderboard table">
-        <thead>
-          <tr>
-            <th>Rank</th><th>Initials</th><th>Score</th><th>3pt</th><th>2pt</th><th>1pt</th><th>Misses</th><th>Date</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <button id="restartBtn">Play Again</button>
-    </div>
-  </div>
-
-  <!-- Audio elements for hit/miss sounds -->
-  <audio id="hitSound" src="hit.mp3" preload="auto"></audio>
-  <audio id="missSound" src="miss.mp3" preload="auto"></audio>
-
-  <script src="scripts.js"></script>
+    <!-- Skip to content link for accessibility -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div class="header-contact">
+                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
+                <span class="service-area">Serving Hesperia & the High Desert</span>
+            </div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="/" class="logo-link">
+                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
+                </a>
+                <ul class="nav-list">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/gallery">Project Gallery</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Free Estimate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main id="main-content" class="main-content" role="main">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-content">
+                <h1 id="hero-heading">Quality Construction & Remodeling in Hesperia</h1>
+                <p class="hero-subtitle">Licensed • Insured • Local • Family-Owned</p>
+                <a href="/contact" class="cta-button">Get Your Free Estimate</a>
+            </div>
+        </section>
+        
+        <!-- Services Section -->
+        <section class="services" aria-labelledby="services-heading">
+            <h2 id="services-heading">Our Construction Services</h2>
+            <div class="service-grid">
+                <article class="service-card">
+                    <h3>Home Remodeling</h3>
+                    <p>Complete kitchen and bathroom renovations, room additions, and whole-home remodels.</p>
+                </article>
+                <article class="service-card">
+                    <h3>Repairs & Maintenance</h3>
+                    <p>Drywall, roofing, flooring, and all general home repairs for Hesperia residents.</p>
+                </article>
+                <article class="service-card">
+                    <h3>Custom Construction</h3>
+                    <p>Tailored solutions for your unique needs, from concept to completion.</p>
+                </article>
+            </div>
+        </section>
+        
+        <!-- Local Testimonials -->
+        <section class="testimonials" aria-labelledby="testimonials-heading">
+            <h2 id="testimonials-heading">What Hesperia Homeowners Say</h2>
+            <div class="testimonial-carousel">
+                <!-- Testimonial items would go here -->
+            </div>
+        </section>
+        
+        <!-- Service Area -->
+        <section class="service-area" aria-labelledby="area-heading">
+            <h2 id="area-heading">Serving the High Desert Area</h2>
+            <p>Proudly providing construction services to Hesperia, Victorville, Apple Valley, and surrounding communities.</p>
+            <div class="area-map">
+                <!-- Embedded Google Map or image map of service area -->
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <address>
+                    [Your Company Name]<br>
+                    [Street Address]<br>
+                    Hesperia, CA 92345<br>
+                    <a href="tel:+17605551234">(760) 555-1234</a><br>
+                    <a href="mailto:info@yourcompany.com">info@yourcompany.com</a>
+                </address>
+            </div>
+            
+            <div class="footer-hours">
+                <h3>Business Hours</h3>
+                <p>Monday-Friday: 7:00 AM - 5:00 PM<br>
+                Saturday: 8:00 AM - 2:00 PM<br>
+                Sunday: Closed</p>
+            </div>
+            
+            <div class="footer-licenses">
+                <h3>Licensed & Insured</h3>
+                <p>CA License #[YOUR LICENSE NUMBER]<br>
+                Fully Insured for Your Protection</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> [Your Company Name]. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="/privacy">Privacy Policy</a></li>
+                <li><a href="/terms">Terms of Service</a></li>
+                <li><a href="/sitemap.xml">Sitemap</a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="/js/main.js" type="module"></script>
+    <script>
+        // Simple current year update
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    
+    <!-- Contact Form Modal (hidden by default) -->
+    <dialog id="contactModal">
+        <form id="contactForm" method="post">
+            <!-- Form content would go here -->
+        </form>
+    </dialog>
 </body>
 </html>
-
