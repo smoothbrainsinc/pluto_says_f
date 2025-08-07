@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Gallery | [Company Name] - Hesperia Construction Portfolio</title>
+    <meta name="description" content="View our completed construction projects in Hesperia including remodels, repairs, and custom builds.">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Gallery Page Specific Styles */
+        .gallery-hero {
+            background: linear-gradient(rgba(43, 108, 176, 0.8), rgba(43, 108, 176, 0.8)), url('../images/gallery-hero.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .filter-button {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px var(--shadow);
+            transition: transform 0.3s ease;
+            aspect-ratio: 4/3;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 1.5rem 1rem 1rem;
+            color: var(--white);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--accent-warm);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-image {
+            max-height: 80vh;
+            max-width: 90vw;
+            border-radius: 8px;
+            box-shadow: 0 0 20px var(--shadow);
+        }
+        
+        .lightbox-caption {
+            color: var(--white);
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .close-lightbox {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: var(--white);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div class="header-contact">
+                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
+                <span class="service-area">Serving Hesperia & the High Desert</span>
+            </div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="/" class="logo-link">
+                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
+                </a>
+                <ul class="nav-list">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/gallery" aria-current="page">Project Gallery</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Free Estimate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main id="main-content" class="main-content" role="main">
+        <!-- Gallery Hero -->
+        <section class="hero gallery-hero" aria-labelledby="gallery-hero-heading">
+            <div class="hero-content">
+                <h1 id="gallery-hero-heading">Our Project Gallery</h1>
+                <p class="hero-subtitle">View our completed construction projects in Hesperia</p>
+            </div>
+        </section>
+        
+        <!-- Gallery Content -->
+        <section class="container" aria-labelledby="gallery-heading">
+            <h2 id="gallery-heading" class="text-center">Featured Projects</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem;">Browse through our portfolio of completed remodels, repairs, and custom construction projects in the Hesperia area.</p>
+            
+            <!-- Filter Buttons -->
+            <div class="gallery-filter" role="group" aria-label="Project filters">
+                <button class="filter-button active" data-filter="all">All Projects</button>
+                <button class="filter-button" data-filter="remodeling">Remodeling</button>
+                <button class="filter-button" data-filter="repairs">Repairs</button>
+                <button class="filter-button" data-filter="custom">Custom Builds</button>
+                <button class="filter-button" data-filter="commercial">Commercial</button>
+            </div>
+            
+            <!-- Gallery Grid -->
+            <div class="gallery-grid">
+                <!-- Project 1 -->
+                <div class="gallery-item" data-category="remodeling">
+                    <img src="/images/projects/kitchen-remodel.jpg" alt="Modern kitchen remodel in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Remodeling</span>
+                    <div class="gallery-overlay">
+                        <h3>Modern Kitchen Remodel</h3>
+                        <p>Hesperia residence - 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="gallery-item" data-category="repairs">
+                    <img src="/images/projects/roof-repair.jpg" alt="Roof repair project in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Repairs</span>
+                    <div class="gallery-overlay">
+                        <h3>Roof Replacement</h3>
+                        <p>High Desert home - 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="gallery-item" data-category="custom">
+                    <img src="/images/projects/custom-adu.jpg" alt="Custom ADU construction in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Custom Build</span>
+                    <div class="gallery-overlay">
+                        <h3>Custom ADU Construction</h3>
+                        <p>Hesperia property - 2024</p>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="gallery-item" data-category="remodeling">
+                    <img src="/images/projects/bathroom-remodel.jpg" alt="Luxury bathroom remodel in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Remodeling</span>
+                    <div class="gallery-overlay">
+                        <h3>Luxury Bathroom Remodel</h3>
+                        <p>Hesperia home - 2023</p>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="gallery-item" data-category="commercial">
+                    <img src="/images/projects/commercial-remodel.jpg" alt="Commercial space remodel in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Commercial</span>
+                    <div class="gallery-overlay">
+                        <h3>Commercial Tenant Improvement</h3>
+                        <p>Hesperia business - 2024</p>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <div class="gallery-item" data-category="repairs">
+                    <img src="/images/projects/deck-repair.jpg" alt="Deck repair in Hesperia" class="gallery-image" loading="lazy">
+                    <span class="gallery-category">Repairs</span>
+                    <div class="gallery-overlay">
+                        <h3>Deck Restoration</h3>
+                        <p>Hesperia backyard - 2023</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="bg-primary" style="padding: 4rem 1rem; color: var(--white); text-align: center;">
+            <div class="container">
+                <h2>Like What You See?</h2>
+                <p style="margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">Let's discuss how we can bring your vision to life with our construction expertise.</p>
+                <a href="/contact" class="cta-button" style="background-color: var(--accent-warm);">Schedule a Consultation</a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-image" id="lightbox-image" alt="Enlarged project image">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
+    
+    <footer class="site-footer" role="contentinfo">
+        <!-- Footer content from previous boilerplate -->
+    </footer>
+    
+    <script src="/js/main.js" type="module"></script>
+    <script>
+        // Gallery Filter Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    const filterValue = button.getAttribute('data-filter');
+                    
+                    // Filter items
+                    galleryItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Lightbox Functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-image');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeLightbox = document.querySelector('.close-lightbox');
+            
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const imgSrc = item.querySelector('img').getAttribute('src');
+                    const title = item.querySelector('h3').textContent;
+                    const description = item.querySelector('p').textContent;
+                    
+                    lightboxImg.setAttribute('src', imgSrc);
+                    lightboxCaption.textContent = `${title} - ${description}`;
+                    lightbox.style.display = 'flex';
+                });
+            });
+            
+            closeLightbox.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+            
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

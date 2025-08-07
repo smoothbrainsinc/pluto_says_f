@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | [Company Name] - Hesperia Construction Experts</title>
+    <meta name="description" content="Professional construction services in Hesperia including remodels, repairs, and custom home improvements.">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Services Page Specific Styles */
+        .service-hero {
+            background: linear-gradient(rgba(43, 108, 176, 0.8), rgba(43, 108, 176, 0.8)), url('../images/services-hero.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .service-detail {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+        
+        .service-detail h3 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .service-features li {
+            background-color: var(--off-white);
+            padding: 0.75rem;
+            border-left: 3px solid var(--accent-warm);
+        }
+        
+        .process-steps {
+            counter-reset: step-counter;
+            margin: 2rem 0;
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .process-step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--primary);
+            color: var(--white);
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    
+    <header class="site-header" role="banner">
+        <div class="header-container">
+            <div class="header-contact">
+                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
+                <span class="service-area">Serving Hesperia & the High Desert</span>
+            </div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="/" class="logo-link">
+                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
+                </a>
+                <ul class="nav-list">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/services" aria-current="page">Services</a></li>
+                    <li><a href="/gallery">Project Gallery</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Free Estimate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main id="main-content" class="main-content" role="main">
+        <!-- Services Hero -->
+        <section class="hero service-hero" aria-labelledby="services-hero-heading">
+            <div class="hero-content">
+                <h1 id="services-hero-heading">Our Construction Services</h1>
+                <p class="hero-subtitle">Quality craftsmanship for Hesperia homes and businesses</p>
+            </div>
+        </section>
+        
+        <!-- Services List -->
+        <section class="container" aria-labelledby="services-list-heading">
+            <h2 id="services-list-heading" class="text-center">Comprehensive Construction Solutions</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem;">As Hesperia's trusted construction experts, we offer a full range of remodeling and repair services to transform your space.</p>
+            
+            <div class="service-detail">
+                <h3>Home Remodeling</h3>
+                <p>Complete transformations of your living spaces with attention to detail and quality materials.</p>
+                
+                <ul class="service-features">
+                    <li>Kitchen renovations with custom cabinetry</li>
+                    <li>Bathroom remodels with modern fixtures</li>
+                    <li>Whole-home renovations</li>
+                    <li>Room additions and expansions</li>
+                    <li>Open concept conversions</li>
+                    <li>Aging-in-place modifications</li>
+                </ul>
+                
+                <div class="process-steps">
+                    <h4>Our Remodeling Process:</h4>
+                    <div class="process-step">
+                        <h5>Initial Consultation</h5>
+                        <p>We discuss your vision, needs, and budget to create a customized plan.</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Design & Planning</h5>
+                        <p>Our team creates detailed plans and obtains necessary permits.</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Construction</h5>
+                        <p>Skilled craftsmen execute the project with minimal disruption.</p>
+                    </div>
+                    <div class="process-step">
+                        <h5>Final Walkthrough</h5>
+                        <p>We ensure every detail meets your expectations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-detail">
+                <h3>Repair Services</h3>
+                <p>Reliable solutions for home maintenance and damage repair throughout Hesperia.</p>
+                
+                <ul class="service-features">
+                    <li>Drywall repair and installation</li>
+                    <li>Roofing repairs and replacements</li>
+                    <li>Flooring repairs and installation</li>
+                    <li>Deck and patio repairs</li>
+                    <li>Water damage restoration</li>
+                    <li>Structural repairs</li>
+                </ul>
+            </div>
+            
+            <div class="service-detail">
+                <h3>Custom Construction</h3>
+                <p>Tailored building solutions from concept to completion for your unique needs.</p>
+                
+                <ul class="service-features">
+                    <li>Custom home building</li>
+                    <li>ADU (Accessory Dwelling Unit) construction</li>
+                    <li>Garage conversions</li>
+                    <li>Outdoor living spaces</li>
+                    <li>Commercial tenant improvements</li>
+                    <li>Specialty woodworking</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="bg-primary" style="padding: 4rem 1rem; color: var(--white); text-align: center;">
+            <div class="container">
+                <h2>Ready to Start Your Project?</h2>
+                <p style="margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">Contact us today for a free consultation and estimate. We serve all of Hesperia and the surrounding High Desert communities.</p>
+                <a href="/contact" class="cta-button" style="background-color: var(--accent-warm);">Get Your Free Estimate</a>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer" role="contentinfo">
+        <!-- Footer content from previous boilerplate -->
+    </footer>
+    
+    <script src="/js/main.js" type="module"></script>
+</body>
+</html>
