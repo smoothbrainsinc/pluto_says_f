@@ -1,0 +1,28 @@
+.hero {
+  background-image: url('/images/hero/hero_image_1.jpeg');
+  background-size: cover;           /* Cover the entire hero area */
+  background-position: center;      /* Center the image */
+  background-repeat: no-repeat;     /* Don’t repeat the image */
+  position: relative;               /* For positioning child elements if needed */
+  color: white;                    /* Ensure text is visible on dark or busy images */
+  min-height: 400px;               /* Adjust height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Optional: add a semi-transparent overlay for better text legibility */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4);  /* Dark overlay with 40% opacity */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2; /* On top of overlay */
+}
