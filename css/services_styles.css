@@ -1,0 +1,18 @@
+.service-features li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  background-color: var(--off-white);
+  border-left: 3px solid var(--accent-warm);
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-features li .demo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 0.75rem;
+  border-radius: 4px; /* optional, looks nicer */
+  flex-shrink: 0;
+}
