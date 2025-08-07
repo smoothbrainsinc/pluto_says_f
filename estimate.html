@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Estimate | [Company Name] - Hesperia Construction Services</title>
-    <meta name="description" content="Request a free, no-obligation estimate for your construction project in Hesperia. We serve residential and commercial clients throughout the High Desert.">
+    <meta name="description" content="Request a no-obligation estimate for your construction project in Hesperia. We serve residential and commercial clients throughout the High Desert.">
     
     <!-- Favicons -->
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -177,7 +177,13 @@
             <h2 id="estimate-form-heading" class="text-center">Request Your Estimate</h2>
             <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem;">Fill out the form below and we'll contact you within 72 hours to discuss your project. For immediate assistance, call us at <a href="tel:+17605551234" style="color: var(--primary); font-weight: 600;">(760) 555-1234</a>.</p>
             
-            <form class="estimate-form" id="estimateRequestForm">
+            <form 
+                class="estimate-form" 
+                id="estimateRequestForm"
+                action="https://form-handler.smoothbrainsinc.workers.dev"
+                method="POST"
+                enctype="multipart/form-data"
+            >
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="firstName">First Name*</label>
@@ -352,18 +358,5 @@
     </footer>
     
     <script src="/js/main.js" type="module"></script>
-    <script>
-        // Form submission handling
-        document.getElementById('estimateRequestForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Form validation would go here
-            // Then submit via AJAX or let form submit naturally
-            
-            // For demo purposes, we'll show a confirmation
-            alert('Thank you for your estimate request! We will contact you within 24 hours.');
-            this.reset();
-        });
-    </script>
 </body>
 </html>
