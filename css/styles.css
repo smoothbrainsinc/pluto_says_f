@@ -115,7 +115,6 @@ img {
 }
 
 .service-area {
-  color: white;
   font-size: 0.875rem;
 }
 
@@ -167,7 +166,7 @@ img {
   padding: 6rem 1rem;
   text-align: center;
 }
-
+*/
 .hero-content {
   max-width: 800px;
   margin: 0 auto;
@@ -185,7 +184,7 @@ img {
   font-weight: 500;
 }
 
-*/
+
 
 .cta-button {
   display: inline-block;
