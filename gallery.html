@@ -7,172 +7,19 @@
     <meta name="description" content="View our completed construction projects in Hesperia including remodels, repairs, and custom builds.">
     
     <!-- Favicons -->
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
-    <style>
-        /* Gallery Page Specific Styles */
-        .gallery-hero {
-            background: linear-gradient(rgba(43, 108, 176, 0.8), rgba(43, 108, 176, 0.8)), url('../images/gallery-hero.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .gallery-filter {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .filter-button {
-            padding: 0.5rem 1.5rem;
-            background-color: var(--light-gray);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .filter-button:hover, .filter-button.active {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px var(--shadow);
-            transition: transform 0.3s ease;
-            aspect-ratio: 4/3;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .gallery-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .gallery-item:hover .gallery-image {
-            transform: scale(1.05);
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-            padding: 1.5rem 1rem 1rem;
-            color: var(--white);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-category {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background-color: var(--accent-warm);
-            color: var(--white);
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        
-        /* Lightbox Modal */
-        .lightbox {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .lightbox-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-        }
-        
-        .lightbox-image {
-            max-height: 80vh;
-            max-width: 90vw;
-            border-radius: 8px;
-            box-shadow: 0 0 20px var(--shadow);
-        }
-        
-        .lightbox-caption {
-            color: var(--white);
-            text-align: center;
-            margin-top: 1rem;
-        }
-        
-        .close-lightbox {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: var(--white);
-            font-size: 2rem;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/gallery_styles.css">
 </head>
 <body>
     <!-- Skip to content link for accessibility -->
     <a class="skip-link" href="#main-content">Skip to main content</a>
     
     <header class="site-header" role="banner">
-        <div class="header-container">
-            <div class="header-contact">
-                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
-                <span class="service-area">Serving Hesperia & the High Desert</span>
-            </div>
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="/" class="logo-link">
-                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
-                </a>
-                <ul class="nav-list">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/services">Services</a></li>
-                    <li><a href="/gallery" aria-current="page">Project Gallery</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/contact">Estimate</a></li>
-                </ul>
-            </nav>
-        </div>
+      <div id="navbar-placeholder"><!-- Navbar will be loaded here --></div>
     </header>
     
     <main id="main-content" class="main-content" role="main">
@@ -339,5 +186,21 @@
             });
         });
     </script>
+    <script>
+  // Fetch and insert the navbar from navbar.html into the placeholder div
+  fetch('navbar.html')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.text();
+    })
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+    })
+    .catch(error => {
+      console.error('Error loading navbar:', error);
+    });
+</script>
 </body>
 </html>

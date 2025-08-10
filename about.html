@@ -7,120 +7,20 @@
     <meta name="description" content="Learn about our family-owned construction company serving Hesperia and the High Desert with quality craftsmanship since [YEAR].">
     
     <!-- Favicons -->
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/about_styles.css">
-    <style>
-        /* About Page Specific Styles */
-        .about-hero {
-            background: linear-gradient(rgba(43, 108, 176, 0.8), rgba(43, 108, 176, 0.8)), url('../images/about-hero.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-        
-        .about-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin: 4rem 0;
-        }
-        
-        .about-image {
-            border-radius: 8px;
-            box-shadow: 0 4px 20px var(--shadow);
-            overflow: hidden;
-        }
-        
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .team-member {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px var(--shadow);
-            text-align: center;
-        }
-        
-        .team-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 1rem;
-            border: 3px solid var(--primary-light);
-        }
-        
-        .values-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .value-card {
-            background-color: var(--white);
-            border-top: 4px solid var(--primary);
-            border-radius: 4px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px var(--shadow);
-        }
-        
-        .value-card h3 {
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-        
-        .value-icon {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        @media (max-width: 768px) {
-            .about-section {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/about_styles.css">
+
 </head>
 <body>
     <!-- Skip to content link for accessibility -->
     <a class="skip-link" href="#main-content">Skip to main content</a>
     
     <header class="site-header" role="banner">
-        <div class="header-container">
-            <div class="header-contact">
-                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
-                <span class="service-area">Serving Hesperia & the High Desert</span>
-            </div>
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="/" class="logo-link">
-                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
-                </a>
-                <ul class="nav-list">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/services">Services</a></li>
-                    <li><a href="/gallery">Project Gallery</a></li>
-                    <li><a href="/about" aria-current="page">About Us</a></li>
-                    <li><a href="/contact">Estimate</a></li>
-                </ul>
-            </nav>
-        </div>
+      <div id="navbar-placeholder"><!-- Navbar will be loaded here --></div>
     </header>
     
     <main id="main-content" class="main-content" role="main">
@@ -142,7 +42,7 @@
                     <p>We're proud to be Hesperia natives, and we're committed to giving back to the community that has supported us over the years through local sponsorships and volunteer work.</p>
                 </div>
                 <div class="about-image">
-                    <img src="/images/company-founders.jpg" alt="[Company Name] founders working on a job site" loading="lazy">
+                    <img src="images/company-founders.jpg" alt="[Company Name] founders working on a job site" loading="lazy">
                 </div>
             </div>
         </section>
@@ -154,28 +54,28 @@
             
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="/images/team/owner.jpeg" alt="[Owner's Name]" class="team-photo" loading="lazy">
+                    <img src="images/team/owner.jpeg" alt="[Owner's Name]" class="team-photo" loading="lazy">
                     <h3>[Owner's Name]</h3>
                     <p class="text-primary" style="font-weight: 600;">Owner/General Contractor</p>
                     <p>With over 20 years in the construction industry, [Owner] ensures every project meets our high standards.</p>
                 </div>
                 
                 <div class="team-member">
-                    <img src="/images/team/project-manager.jpeg" alt="[PM Name]" class="team-photo" loading="lazy">
+                    <img src="images/team/project-manager.jpeg" alt="[PM Name]" class="team-photo" loading="lazy">
                     <h3>[PM Name]</h3>
                     <p class="text-primary" style="font-weight: 600;">Project Manager</p>
                     <p>Our detail-oriented project manager keeps every job on schedule and within budget.</p>
                 </div>
                 
                 <div class="team-member">
-                    <img src="/images/team/lead-carpenter.jpeg" alt="[Carpenter Name]" class="team-photo" loading="lazy">
+                    <img src="images/team/lead-carpenter.jpeg" alt="[Carpenter Name]" class="team-photo" loading="lazy">
                     <h3>[Carpenter Name]</h3>
                     <p class="text-primary" style="font-weight: 600;">Lead Carpenter</p>
                     <p>A master craftsman with 15 years experience in custom carpentry and finish work.</p>
                 </div>
                 
                 <div class="team-member">
-                    <img src="/images/team/crew.jpeg" alt="Construction crew" class="team-photo" loading="lazy">
+                    <img src="images/team/crew.jpeg" alt="Construction crew" class="team-photo" loading="lazy">
                     <h3>Our Crew</h3>
                     <p class="text-primary" style="font-weight: 600;">Skilled Tradespeople</p>
                     <p>Dedicated professionals who take pride in their work and treat your home with respect.</p>
@@ -220,7 +120,7 @@
             <div class="container">
                 <h2>Work With Hesperia's Trusted Builders</h2>
                 <p style="margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">Experience the difference that comes with working with a local, family-owned construction company.</p>
-                <a href="/contact" class="cta-button" style="background-color: var(--accent-warm);">Get Your Estimate</a>
+                <a href="contact" class="cta-button" style="background-color: var(--accent-warm);">Get Your Estimate</a>
             </div>
         </section>
     </main>
@@ -229,6 +129,21 @@
         <!-- Footer content from previous boilerplate -->
     </footer>
     
- 
+ <script>
+  // Fetch and insert the navbar from navbar.html into the placeholder div
+  fetch('navbar.html')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.text();
+    })
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+    })
+    .catch(error => {
+      console.error('Error loading navbar:', error);
+    });
+</script>
 </body>
 </html>

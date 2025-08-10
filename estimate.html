@@ -143,24 +143,7 @@
     <a class="skip-link" href="#main-content">Skip to main content</a>
     
     <header class="site-header" role="banner">
-        <div class="header-container">
-            <div class="header-contact">
-                <a href="tel:+17605551234" class="phone-link">☎ (760) 555-1234</a>
-                <span class="service-area">Serving Hesperia & the High Desert</span>
-            </div>
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="/" class="logo-link">
-                    <img src="/images/logo.svg" alt="[Company Name] - Hesperia Construction" width="220" height="80">
-                </a>
-                <ul class="nav-list">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/services">Services</a></li>
-                    <li><a href="/gallery">Project Gallery</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/estimate" aria-current="page">Estimate</a></li>
-                </ul>
-            </nav>
-        </div>
+      <div id="navbar-placeholder"><!-- Navbar will be loaded here --></div>
     </header>
     
     <main id="main-content" class="main-content" role="main">
@@ -357,6 +340,21 @@
         <!-- Footer content from previous boilerplate -->
     </footer>
     
-
+<script>
+  // Fetch and insert the navbar from navbar.html into the placeholder div
+  fetch('navbar.html')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.text();
+    })
+    .then(html => {
+      document.getElementById('navbar-placeholder').innerHTML = html;
+    })
+    .catch(error => {
+      console.error('Error loading navbar:', error);
+    });
+</script>
 </body>
 </html>
