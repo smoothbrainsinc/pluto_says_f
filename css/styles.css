@@ -37,6 +37,7 @@ body {
   color: var(--black);
   background-color: var(--off-white);
   font-size: 1rem;
+  margin: 0;
 }
 
 h1, h2, h3, h4 {
@@ -91,6 +92,8 @@ img {
   box-shadow: 0 2px 4px var(--shadow);
   position: sticky;
   top: 0;
+  margin-top: 0;
+  padding-top:0;
   z-index: 100;
 }
 
@@ -107,6 +110,8 @@ img {
   padding: 0.5rem 1rem;
   background-color: var(--primary-dark);
   color: var(--white);
+  margin-top: 0;
+  padding-top: 0.5rem
 }
 
 .phone-link {
