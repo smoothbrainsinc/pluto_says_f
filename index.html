@@ -127,42 +127,53 @@
         </section>
     </main>
     
-    <footer class="site-footer" role="contentinfo">
-        <div class="footer-container">
-            <div class="footer-contact">
-                <h3>Contact Us</h3>
-                <address>
-                    [Your Company Name]<br>
-                    [Street Address]<br>
-                    Hesperia, CA 92345<br>
-                    <a href="tel:+17605551234">(760) 555-1234</a><br>
-                    <a href="mailto:info@yourcompany.com">info@yourcompany.com</a>
-                </address>
-            </div>
-            
-            <div class="footer-hours">
-                <h3>Business Hours</h3>
-                <p>Monday-Friday: 7:00 AM - 5:00 PM<br>
-                Saturday: 8:00 AM - 2:00 PM<br>
-                Sunday: Closed</p>
-            </div>
-            
-            <div class="footer-licenses">
-                <h3>Licensed & Insured</h3>
-                <p>CA License #[YOUR LICENSE NUMBER]<br>
-                Fully Insured for Your Protection</p>
-            </div>
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-container">
+        <!-- Contact Info -->
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <address>
+                Hillman Homes & Remodeling<br>
+                123 Main Street<br>
+                Hesperia, CA 92345<br>
+                <a href="tel:+17605551234">(760) 555‑1234</a><br>
+                <a href="mailto:info@hillmanhomes.com">info@hillmanhomes.com</a>
+            </address>
         </div>
         
-        <div class="footer-bottom">
-            <p>&copy; <span id="year"></span> [Your Company Name]. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="/privacy">Privacy Policy</a></li>
-                <li><a href="/terms">Terms of Service</a></li>
-                <li><a href="/sitemap.xml">Sitemap</a></li>
-            </ul>
+        <!-- Business Hours -->
+        <div class="footer-hours">
+            <h3>Business Hours</h3>
+            <p>
+                Monday–Friday: 7:00 AM – 5:00 PM<br>
+                Saturday: 8:00 AM – 2:00 PM<br>
+                Sunday: Closed
+            </p>
         </div>
-    </footer>
+        
+        <!-- License Info -->
+        <div class="footer-licenses">
+            <h3>Licensed & Insured</h3>
+            <p>CA License #1234567<br>
+            Fully Insured for Your Protection</p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> Hillman Homes & Remodeling. All rights reserved.</p>
+        <ul class="footer-links">
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+            <li><a href="/sitemap.xml">Sitemap</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    // Update year automatically
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
     
     <!-- JavaScript -->
 
