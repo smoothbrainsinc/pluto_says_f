@@ -67,11 +67,13 @@
 
   <nav class="main-nav" aria-label="Main navigation">
     <a href="/" class="logo-link">
-      <img src="images/logo/HillmanHome.png" alt="Hillman Homes & Remodeling - Hesperia Construction" width="80" height="80">
+      <img src="/images/logo/HillmanHome.png" alt="Hillman Homes & Remodeling" width="80" height="80">
     </a>
 
     <!-- Hamburger Toggle (mobile only) -->
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav-list">☰</button>
+    <button class="nav-toggle" id="hamburger-button" aria-expanded="false" aria-controls="main-nav-list">
+      ☰
+    </button>
 
     <ul class="nav-list" id="main-nav-list">
       <li><a href="index.html">Home</a></li>
@@ -85,24 +87,31 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navList = document.querySelector('.nav-list');
-    
-    if (navToggle && navList) {
-        navToggle.addEventListener('click', function() {
-            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-            navToggle.setAttribute('aria-expanded', !isExpanded);
-            navList.classList.toggle('nav-active');
-        });
+// Failproof initialization
+function initMenu() {
+  const toggle = document.getElementById('hamburger-button');
+  const menu = document.getElementById('main-nav-list');
+  
+  if (!toggle || !menu) {
+    console.error('Menu elements missing!');
+    return;
+  }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navList.contains(e.target) && e.target !== navToggle) {
-                navList.classList.remove('nav-active');
-                navToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
-    }
-});
+  // Click handler
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !isExpanded);
+    menu.classList.toggle('nav-active');
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', () => {
+    toggle.setAttribute('aria-expanded', 'false');
+    menu.classList.remove('nav-active');
+  });
+}
+
+// Run after slight delay to ensure DOM is ready
+setTimeout(initMenu, 50);
 </script>
