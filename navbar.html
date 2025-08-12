@@ -1,63 +1,3 @@
-<style>
-/* Mobile styles */
-@media (max-width: 768px) {
-  .main-nav {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .nav-list {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: white;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
-  
-  .nav-list.nav-active {
-    display: flex;
-  }
-  
-  .nav-list li {
-    padding: 0.5rem 0;
-  }
-  
-  .nav-toggle {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.5rem;
-    margin-left: auto;
-  }
-  
-  .nav-list a {
-    display: block;
-    padding: 0.5rem 0;
-  }
-}
-
-/* Desktop styles */
-@media (min-width: 769px) {
-  .nav-toggle {
-    display: none;
-  }
-  
-  .nav-list {
-    display: flex;
-    gap: 1rem;
-  }
-}
-</style>
-
 <div class="header-container">
   <!-- Top phone bar -->
   <div class="header-contact">
@@ -70,8 +10,8 @@
       <img src="/images/logo/HillmanHome.png" alt="Hillman Homes & Remodeling" width="80" height="80">
     </a>
 
-    <!-- Hamburger Toggle (mobile only) -->
-    <button class="nav-toggle" id="hamburger-button" aria-expanded="false" aria-controls="main-nav-list">
+    <!-- Hamburger Toggle -->
+    <button class="nav-toggle" id="hamburger-button" aria-expanded="false" aria-controls="main-nav-list" aria-label="Toggle navigation">
       ☰
     </button>
 
@@ -87,31 +27,35 @@
 </div>
 
 <script>
-// Failproof initialization
-function initMenu() {
+(function() {
   const toggle = document.getElementById('hamburger-button');
   const menu = document.getElementById('main-nav-list');
-  
-  if (!toggle || !menu) {
-    console.error('Menu elements missing!');
-    return;
-  }
 
-  // Click handler
+  if (!toggle || !menu) return;
+
+  // Toggle menu open/close
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', !isExpanded);
-    menu.classList.toggle('nav-active');
+    toggle.setAttribute('aria-expanded', String(!isExpanded));
+    menu.classList.toggle('active');
   });
 
-  // Close when clicking outside
-  document.addEventListener('click', () => {
-    toggle.setAttribute('aria-expanded', 'false');
-    menu.classList.remove('nav-active');
+  // Close menu when a link is clicked
+  menu.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('active');
+    }
   });
-}
 
-// Run after slight delay to ensure DOM is ready
-setTimeout(initMenu, 50);
+  // Close menu if clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+      toggle.setAttribute('aria-expanded', 'false');
+      menu.classList.remove('active');
+    }
+  });
+})();
 </script>
+

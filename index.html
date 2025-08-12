@@ -190,7 +190,7 @@ fetch('navbar.html')
     const placeholder = document.getElementById('navbar-placeholder');
     placeholder.innerHTML = html;
 
-    // Find and run any scripts inside the fetched HTML
+    // Run any scripts in the loaded navbar
     placeholder.querySelectorAll("script").forEach(oldScript => {
       const newScript = document.createElement("script");
       if (oldScript.src) {
