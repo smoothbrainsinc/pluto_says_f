@@ -2,7 +2,7 @@
 /* Mobile styles */
 @media (max-width: 768px) {
   .main-nav {
-    position: relative; /* Needed for absolute positioning of dropdown */
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,7 +18,7 @@
     background: white;
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    z-index: 1000; /* Ensure it appears above other content */
+    z-index: 1000;
   }
   
   .nav-list.nav-active {
@@ -36,7 +36,7 @@
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
-    margin-left: auto; /* Push to the right */
+    margin-left: auto;
   }
   
   .nav-list a {
@@ -53,7 +53,7 @@
   
   .nav-list {
     display: flex;
-    gap: 1rem; /* Space between nav items */
+    gap: 1rem;
   }
 }
 </style>
@@ -71,9 +71,9 @@
     </a>
 
     <!-- Hamburger Toggle (mobile only) -->
-    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav-list">☰</button>
 
-    <ul class="nav-list">
+    <ul class="nav-list" id="main-nav-list">
       <li><a href="index.html">Home</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="gallery.html">Project Gallery</a></li>
@@ -85,12 +85,24 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
     const navList = document.querySelector('.nav-list');
     
-    navToggle.addEventListener('click', function() {
-      navList.classList.toggle('nav-active');
-    });
-  });
+    if (navToggle && navList) {
+        navToggle.addEventListener('click', function() {
+            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !isExpanded);
+            navList.classList.toggle('nav-active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navList.contains(e.target) && e.target !== navToggle) {
+                navList.classList.remove('nav-active');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+});
 </script>
