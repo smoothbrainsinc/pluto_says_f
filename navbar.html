@@ -1,6 +1,13 @@
-<styles>
+<style>
 /* Mobile styles */
 @media (max-width: 768px) {
+  .main-nav {
+    position: relative; /* Needed for absolute positioning of dropdown */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
   .nav-list {
     display: none;
     flex-direction: column;
@@ -11,6 +18,7 @@
     background: white;
     padding: 1rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000; /* Ensure it appears above other content */
   }
   
   .nav-list.nav-active {
@@ -27,6 +35,13 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
+    padding: 0.5rem;
+    margin-left: auto; /* Push to the right */
+  }
+  
+  .nav-list a {
+    display: block;
+    padding: 0.5rem 0;
   }
 }
 
@@ -38,9 +53,10 @@
   
   .nav-list {
     display: flex;
+    gap: 1rem; /* Space between nav items */
   }
 }
-</styles>
+</style>
 
 <div class="header-container">
   <!-- Top phone bar -->
@@ -67,6 +83,7 @@
     </ul>
   </nav>
 </div>
+
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const navToggle = document.querySelector('.nav-toggle');
