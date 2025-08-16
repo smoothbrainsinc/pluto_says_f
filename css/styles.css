@@ -100,18 +100,18 @@ img {
 .header-container {
   display: flex;
   flex-direction: column;
-  padding: 1rem 0;
+
 }
 
 .header-contact {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
+ /* padding: 0.5rem 1rem;*/
   background-color: var(--primary-dark);
   color: var(--white);
   margin-top: 0;
-  padding-top: 0.5rem
+/*  padding-top: 0.5rem */
 }
 
 .phone-link {
@@ -127,7 +127,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+/*  padding: 1rem; */
 }
 
 .nav-list {
@@ -139,7 +139,7 @@ img {
 .nav-list a {
   font-weight: 600;
   color: var(--dark-gray);
-  padding: 0.5rem 0;
+  /*padding: 0.5rem 0;*/
   position: relative;
 }
 
@@ -275,20 +275,21 @@ img {
 .site-footer {
   background-color: var(--dark-gray);
   color: var(--white);
-  padding: 3rem 1rem 1rem;
+  padding: .5rem;
 }
 
 .footer-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: .2rem;
 }
 
 .footer-contact address { font-style: normal; }
 
 .footer-contact a { color: var(--primary-light); }
 
+.footer-contact h3,
 .footer-hours h3,
 .footer-licenses h3 {
   color: var(--white);
@@ -297,7 +298,7 @@ img {
 
 .footer-bottom {
   border-top: 1px solid var(--medium-gray);
-  padding-top: 1rem;
+  padding-top: .1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -376,7 +377,7 @@ body {
 
 .header-contact {
   margin: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
 }
 
 /* Mobile nav toggle button */
