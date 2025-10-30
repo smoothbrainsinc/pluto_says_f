@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile style fixes (same as your existing code)
+  // Mobile style fixes
   if (/Mobi|Android/i.test(navigator.userAgent)) {
     const crossesElement = document.querySelector('.crosses');
     if (crossesElement) crossesElement.style.backgroundColor = 'white';
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.getElementById('score');
     const toggleBtn = document.getElementById('toggleGameBtn');
 
-    const targetSize = { width: 128, height: 192 };
+    const targetSize = { width: 128, height: 128 }; // Square for round display
     const maxTargets = 3;
 
     let targets = [];
@@ -45,11 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const minSpeed = 1.5;
 
     function randomPosition() {
+      // Get actual available space, accounting for any offset
       const maxX = gameArea.clientWidth - targetSize.width;
       const maxY = gameArea.clientHeight - targetSize.height;
+      
       return {
-        x: Math.floor(Math.random() * maxX),
-        y: Math.floor(Math.random() * maxY)
+        x: Math.max(0, Math.floor(Math.random() * maxX)),
+        y: Math.max(0, Math.floor(Math.random() * maxY))
       };
     }
 
@@ -57,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = document.createElement('img');
       target.className = 'target';
       target.src = images[Math.floor(Math.random() * images.length)];
+      
+      // Set size explicitly
+      target.style.width = targetSize.width + 'px';
+      target.style.height = targetSize.height + 'px';
 
       const pos = randomPosition();
       target.style.left = pos.x + 'px';
@@ -103,15 +109,30 @@ document.addEventListener('DOMContentLoaded', () => {
         target.posX += target.velX;
         target.posY += target.velY;
 
-        // Bounce and confinement
-        if (target.posX <= 0 || target.posX >= gameArea.clientWidth - targetSize.width) {
-          target.velX *= -1;
-          target.posX = Math.max(0, Math.min(target.posX, gameArea.clientWidth - targetSize.width));
+        // Get current dimensions (important for responsive mobile)
+        const areaWidth = gameArea.clientWidth;
+        const areaHeight = gameArea.clientHeight;
+
+        // Bounce and confinement with proper boundaries
+        if (target.posX <= 0) {
+          target.velX = Math.abs(target.velX);
+          target.posX = 0;
+        } else if (target.posX >= areaWidth - targetSize.width) {
+          target.velX = -Math.abs(target.velX);
+          target.posX = areaWidth - targetSize.width;
         }
-        if (target.posY <= 0 || target.posY >= gameArea.clientHeight - targetSize.height) {
-          target.velY *= -1;
-          target.posY = Math.max(0, Math.min(target.posY, gameArea.clientHeight - targetSize.height));
+
+        if (target.posY <= 0) {
+          target.velY = Math.abs(target.velY);
+          target.posY = 0;
+        } else if (target.posY >= areaHeight - targetSize.height) {
+          target.velY = -Math.abs(target.velY);
+          target.posY = areaHeight - targetSize.height;
         }
+
+        // Clamp position to ensure targets stay within bounds
+        target.posX = Math.max(0, Math.min(target.posX, areaWidth - targetSize.width));
+        target.posY = Math.max(0, Math.min(target.posY, areaHeight - targetSize.height));
 
         maintainSpeed(target);
 
@@ -135,6 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handleShoot(event) {
       if (!running) return;
+      
+      // Prevent default touch behavior
+      event.preventDefault();
 
       const rect = gameArea.getBoundingClientRect();
       const x = (event.touches ? event.touches[0].clientX : event.clientX) - rect.left;
@@ -222,12 +246,27 @@ document.addEventListener('DOMContentLoaded', () => {
       else startGame();
     });
 
+    // Handle window resize (especially important for mobile orientation changes)
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        // Reposition targets that may be out of bounds after resize
+        targets.forEach(target => {
+          target.posX = Math.min(target.posX, gameArea.clientWidth - targetSize.width);
+          target.posY = Math.min(target.posY, gameArea.clientHeight - targetSize.height);
+          target.style.left = `${target.posX}px`;
+          target.style.top = `${target.posY}px`;
+        });
+      }, 250);
+    });
+
     function init() {
       spawnInitialTargets();
       updateTargets();
       updateScoreDisplay();
       gameArea.addEventListener('click', handleShoot);
-      gameArea.addEventListener('touchstart', handleShoot);
+      gameArea.addEventListener('touchstart', handleShoot, { passive: false });
     }
 
     return { init };
@@ -235,4 +274,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   game.init();
 });
-
