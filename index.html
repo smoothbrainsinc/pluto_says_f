@@ -7,11 +7,18 @@
   <style>
     body, html { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
     canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+    h1 {padding-top: 100px; color: black; font-size: 150px; text-align: center; font-family: "Slaytanic";  text-shadow:
+     3px  3px 0 #66001a,  /* main highlight */
+    -1px -1px 0 #ffeeee,  /* thin bright edge */
+     -4px  -4px 0 #092b4d,  /* deep shadow */
+     7px  7px 15px #1873cc; /* soft outer glow/shadow */ }
   </style>
 </head>
 <body>
+<h1>1 God Hates Us All 1</h1>
 
-  <canvas id="blood-overlay"></canvas>
+
+<canvas id="blood-overlay"></canvas>
 
   <!-- Vertex Shader -->
   <script id="vertShader" type="x-shader/x-vertex">
@@ -34,9 +41,13 @@ void main() {
     float t = u_time * 1.10; // wobble speed
 
     // ====================== BLOOD FLOOD ANIMATION ======================
-    float cycleDuration = 20.0;                    // seconds for one full drop
-    float progress = fract(u_time / cycleDuration); // 0.0 → 1.0 looping
-    float eased = smoothstep(0.0, 1.0, progress);   // nice ease-in/out
+    float cycleDuration = 25.0;                    // total cycle: 20s drop + 5s pause
+    float rawProgress = fract(u_time / cycleDuration);
+    float dropProgress = rawProgress;              // 0→1 = dropping
+    
+    if (rawProgress > 0.8) dropProgress = 1.0;     // hold at 1.0 for 20% of cycle (5s)
+    float eased = smoothstep(0.0, 1.0, dropProgress);
+
     float baseTop = 1.18 - eased * 1.25;          // starts ~0.99 → goes to ~0.01
     // ===================================================================
     // float baseTop  controls start height eased controls the end
@@ -69,6 +80,16 @@ void main() {
 
     float alpha = body + gloss * 0.8 + rim * 0.4;
     alpha = clamp(alpha, 0.0, 1.0);
+
+// -------- make the wall see-through during pause --------
+//   if (rawProgress > 0.8) {             // same 5s window
+//   float pauseT = (rawProgress - 0.8) / 0.2;  // 0→1 over the pause
+//    float fade = 1.0 - pauseT;       // 1→0 (fully visible → fully transparent)
+ //   alpha *= fade * 0.5;             // 0.5 = max opacity during pause (tweak)
+//}
+// --------------------------------------------------------
+
+
 
     // Transparent above the blood
     if (dist < -0.1) alpha = 0.0;
