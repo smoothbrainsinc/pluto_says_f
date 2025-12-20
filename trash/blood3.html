@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Drip – Exact Version</title>
+  <style>
+    body, html { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
+    canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+  </style>
+</head>
+<body>
+  <canvas id="blood-overlay"></canvas>
+  <!-- Vertex Shader -->
+  <script id="vertShader" type="x-shader/x-vertex">
+    attribute vec2 a_position;
+    varying vec2 vUv;
+    void main() {
+      vUv = a_position * 0.5 + 0.5;
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+  </script>
+  <!-- Fragment Shader -->
+<script id="fragShader" type="x-shader/x-fragment">
+precision highp float;
+varying vec2 vUv;
+uniform float u_time;
+void main() {
+    vec2 uv = vUv;
+    float t = u_time * 1.15; // wobble speed
+    // ====================== BLOOD FLOOD ANIMATION ======================
+    float cycleDuration = 20.0;                    // seconds for one full drop
+    float progress = fract(u_time / cycleDuration); // 0.0 → 1.0 looping
+    float eased = smoothstep(0.0, 1.0, progress);   // nice ease-in/out
+    float baseTop = 1.25 - eased * 0.98;          // starts ~0.99 → goes to ~0.01
+    // ===================================================================
+    // Your original beautiful organic wobble on top of the moving edge
+    float wave = 0.0;
+    wave += sin(uv.x * 8.3 + t * 0.6) * 0.09;
+    wave += sin(uv.x * 19.7 - t * 0.4 + 1.8) * 0.05;
+    wave += sin(uv.x * 41.2 + t * 0.3 + 4.1) * 0.03;
+    float topEdge = baseTop + wave * 0.9;
+    float dist = uv.y - topEdge; // positive = below the blood line
+    // Thick viscous body
+    float body = smoothstep(-0.35, 0.05, dist);
+    body = pow(body, 9.98);
+    // Wet glossy highlight
+    float gloss = pow(max(0.0, 1.0 - abs(dist + 0.08) * 4.5), 7.0);
+    gloss *= smoothstep(-0.23, 0.1, dist);
+    // Rim highlight on drip bottoms
+    float rim = pow(max(0.0, 1.0 - smoothstep(-0.05, 0.15, dist)), 4.0);
+    // Blood color
+    vec3 blood  = vec3(0.75, 0.015, 0.045);
+    vec3 darker = vec3(0.40, 0.005, 0.015);
+    vec3 col = mix(darker, blood, 0.5 + gloss * 1.2 + rim * 0.6);
+    float alpha = body + gloss * 0.8 + rim * 0.4;
+    alpha = clamp(alpha, 0.0, 1.0);
+    // Transparent above the blood
+    if (dist < -0.1) alpha = 0.0;
+    gl_FragColor = vec4(col, alpha * 0.98);
+}
+</script>
+  <script src="blood-effect.js"></script>
+</body>
+</html>
