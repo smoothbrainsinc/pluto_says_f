@@ -1,453 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Messages</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .login-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-        }
-
-        .login-box {
-            background: #1a1a1a;
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #333;
-            max-width: 350px;
-            width: 100%;
-        }
-
-        .login-box h2 {
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #333;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            background: #0a0a0a;
-            color: #fff;
-        }
-
-        .login-box button {
-            width: 100%;
-            padding: 12px;
-            background: #0095f6;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .login-box button:hover {
-            background: #1877f2;
-        }
-
-        .header {
-            background: #1a1a1a;
-            padding: 16px 20px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 20px;
-        }
-
-        .logout-btn {
-            padding: 8px 16px;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .logout-btn:hover {
-            background: #444;
-        }
-
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .message {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            word-wrap: break-word;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.sent {
-            align-self: flex-end;
-            background: #0095f6;
-            color: white;
-        }
-
-        .message.received {
-            align-self: flex-start;
-            background: #1a1a1a;
-            border: 1px solid #333;
-        }
-
-        .message-text {
-            margin-bottom: 6px;
-            line-height: 1.4;
-        }
-
-        .message-meta {
-            font-size: 11px;
-            opacity: 0.7;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .delete-msg-btn {
-            background: none;
-            border: none;
-            color: inherit;
-            cursor: pointer;
-            padding: 0;
-            font-size: 11px;
-            text-decoration: underline;
-            opacity: 0.5;
-        }
-
-        .delete-msg-btn:hover {
-            opacity: 1;
-        }
-
-        .input-container {
-            background: #1a1a1a;
-            padding: 16px 20px;
-            border-top: 1px solid #333;
-            display: flex;
-            gap: 12px;
-        }
-
-        .message-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #333;
-            border-radius: 20px;
-            font-size: 14px;
-            background: #0a0a0a;
-            color: #fff;
-            resize: none;
-            font-family: inherit;
-            min-height: 40px;
-            max-height: 120px;
-        }
-
-        .message-input:focus {
-            outline: none;
-            border-color: #0095f6;
-        }
-
-        .send-btn {
-            padding: 0 20px;
-            background: #0095f6;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .send-btn:hover {
-            background: #1877f2;
-        }
-
-        .send-btn:disabled {
-            background: #333;
-            cursor: not-allowed;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .error {
-            color: #ed4956;
-            font-size: 12px;
-            margin-top: 8px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Just Us</title>
+  <style>
+    body { background: #0d0d0d; color: #f0e6ff; font-family: sans-serif; padding: 2rem; max-width: 600px; margin: 0 auto; }
+    h1 { text-align: center; color: #ff77cc; }
+    #messages { background: #1a1a2e; padding: 1rem; border-radius: 8px; margin: 1rem 0; min-height: 200px; }
+    textarea, button { width: 100%; padding: 0.5rem; margin: 0.5rem 0; background: #16213e; color: white; border: 1px solid #ff77cc; border-radius: 4px; }
+    button { background: #ff77cc; color: #0d0d0d; font-weight: bold; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <div id="loginScreen" class="login-container">
-        <div class="login-box">
-            <h2>💬 Private Messages</h2>
-            <input type="text" id="nameInput" placeholder="Your name" />
-            <input type="password" id="passwordInput" placeholder="Password" />
-            <button onclick="login()">Enter</button>
-            <div id="loginError" class="error hidden"></div>
-        </div>
-    </div>
+  <h1>✨ Just Us ✨</h1>
+  <div id="messages">Loading...</div>
+  <textarea id="note" placeholder="Write something only she should see..."></textarea><br>
+  <button onclick="save()">Send</button>
+  <button onclick="clearAll()">Clear All</button>
 
-    <div id="mainApp" class="hidden">
-        <div class="header">
-            <h1>💬 Messages</h1>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script>
+    const PASSPHRASE = prompt("🔑 Secret phrase? (Only you + her know this)");
+    if (!PASSPHRASE) { document.body.innerHTML = "<h1>Bye, beautiful.</h1>"; throw ""; }
 
-        <div id="messagesContainer" class="messages-container"></div>
+    const encrypt = (txt) => CryptoJS.AES.encrypt(txt, PASSPHRASE).toString();
+    const decrypt = (txt) => CryptoJS.AES.decrypt(txt, PASSPHRASE).toString(CryptoJS.enc.Utf8);
 
-        <div class="input-container">
-            <textarea 
-                id="messageInput" 
-                class="message-input" 
-                placeholder="Type a message..."
-                rows="1"
-            ></textarea>
-            <button class="send-btn" onclick="sendMessage()">Send</button>
-        </div>
-    </div>
+    async function load() {
+      try {
+        const res = await fetch("notes.txt");
+        const encrypted = await res.text();
+        const notes = encrypted ? decrypt(encrypted).split("|||").filter(n => n) : [];
+        document.getElementById("messages").innerHTML = 
+          notes.map(n => `<p>${n}</p>`).join("") || "<p>Empty... for now.</p>";
+      } catch(e) { document.getElementById("messages").innerHTML = "<p>🔒 New here?</p>"; }
+    }
 
-    <script>
-        const PASSWORD = 'pluto2024'; // Change this
-        let currentUser = '';
-        let lastMessageCount = 0;
+    async function save() {
+      const note = document.getElementById("note").value.trim();
+      if (!note) return;
+      const res = await fetch("notes.txt");
+      const encrypted = await res.text();
+      const oldNotes = encrypted ? decrypt(encrypted).split("|||").filter(n => n) : [];
+      const newNotes = [...oldNotes, note];
+      const toSave = encrypt(newNotes.join("|||"));
+      // GitHub can't write files, so we'll use this trick:
+      alert("✅ Copied! Now:\n1. Press Ctrl+C (Cmd+C)\n2. Go to GitHub\n3. Edit 'notes.txt' with this:");
+      prompt("📋 Paste this into notes.txt:", toSave);
+      document.getElementById("note").value = "";
+    }
 
-        // Auto-resize textarea
-        const textarea = document.getElementById('messageInput');
-        if (textarea) {
-            textarea.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = this.scrollHeight + 'px';
-            });
-        }
+    function clearAll() {
+      if (confirm("Erase everything forever?")) {
+        prompt("📋 Replace notes.txt with this:", encrypt(""));
+      }
+    }
 
-        // Check if already logged in
-        if (sessionStorage.getItem('loggedIn') === 'true') {
-            currentUser = sessionStorage.getItem('userName') || 'Anonymous';
-            showMainApp();
-        }
-
-        function login() {
-            const name = document.getElementById('nameInput').value.trim();
-            const pass = document.getElementById('passwordInput').value;
-            const errorDiv = document.getElementById('loginError');
-            
-            if (!name) {
-                errorDiv.textContent = 'Please enter your name';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            if (pass !== PASSWORD) {
-                errorDiv.textContent = 'Incorrect password';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            currentUser = name;
-            sessionStorage.setItem('loggedIn', 'true');
-            sessionStorage.setItem('userName', name);
-            showMainApp();
-        }
-
-        function logout() {
-            sessionStorage.removeItem('loggedIn');
-            sessionStorage.removeItem('userName');
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('mainApp').classList.add('hidden');
-            currentUser = '';
-        }
-
-        function showMainApp() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            loadMessages();
-            
-            // Auto-refresh messages every 3 seconds
-            setInterval(loadMessages, 3000);
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-            
-            if (!text) return;
-
-            const message = {
-                id: Date.now().toString(),
-                text: text,
-                sender: currentUser,
-                timestamp: new Date().toISOString()
-            };
-
-            try {
-                await window.storage.set(`msg:${message.id}`, JSON.stringify(message), true);
-                input.value = '';
-                input.style.height = 'auto';
-                loadMessages();
-            } catch (error) {
-                console.error('Send error:', error);
-                alert('Failed to send message');
-            }
-        }
-
-        async function loadMessages() {
-            try {
-                const result = await window.storage.list('msg:', true);
-                const container = document.getElementById('messagesContainer');
-                
-                if (!result || !result.keys || result.keys.length === 0) {
-                    if (lastMessageCount === 0) {
-                        container.innerHTML = `
-                            <div class="empty-state">
-                                <h3>No messages yet</h3>
-                                <p>Say something!</p>
-                            </div>
-                        `;
-                    }
-                    return;
-                }
-
-                // Only update if message count changed
-                if (result.keys.length === lastMessageCount) return;
-                lastMessageCount = result.keys.length;
-
-                // Load all messages
-                const messages = [];
-                for (const key of result.keys) {
-                    try {
-                        const msgResult = await window.storage.get(key, true);
-                        if (msgResult && msgResult.value) {
-                            messages.push(JSON.parse(msgResult.value));
-                        }
-                    } catch (error) {
-                        console.error('Error loading message:', error);
-                    }
-                }
-
-                // Sort by timestamp
-                messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-
-                // Display messages
-                const wasScrolledToBottom = container.scrollHeight - container.scrollTop === container.clientHeight;
-                
-                container.innerHTML = messages.map(msg => {
-                    const isSent = msg.sender === currentUser;
-                    return `
-                        <div class="message ${isSent ? 'sent' : 'received'}">
-                            <div class="message-text">${escapeHtml(msg.text)}</div>
-                            <div class="message-meta">
-                                <span>${isSent ? 'You' : msg.sender} • ${formatTime(msg.timestamp)}</span>
-                                ${isSent ? `<button class="delete-msg-btn" onclick="deleteMessage('${msg.id}')">delete</button>` : ''}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                // Auto-scroll to bottom if was at bottom
-                if (wasScrolledToBottom || messages.length === 1) {
-                    container.scrollTop = container.scrollHeight;
-                }
-
-            } catch (error) {
-                console.error('Error loading messages:', error);
-            }
-        }
-
-        async function deleteMessage(msgId) {
-            try {
-                await window.storage.delete(`msg:${msgId}`, true);
-                lastMessageCount--;
-                loadMessages();
-            } catch (error) {
-                console.error('Error deleting message:', error);
-            }
-        }
-
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = now - date;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-
-            if (minutes < 1) return 'just now';
-            if (minutes < 60) return `${minutes}m ago`;
-            if (hours < 24) return `${hours}h ago`;
-            
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Enter to send (Shift+Enter for new line)
-        document.getElementById('messageInput')?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
-        // Login with Enter key
-        document.getElementById('passwordInput')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') login();
-        });
-    </script>
+    load();
+  </script>
 </body>
 </html>
