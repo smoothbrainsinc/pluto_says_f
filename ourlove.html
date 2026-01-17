@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Feed</title>
+    <title>Private Messages</title>
     <style>
         * {
             margin: 0;
@@ -12,36 +12,29 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #fafafa;
-            color: #262626;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        body.dark {
-            background: #000;
-            color: #fafafa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .login-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
             padding: 20px;
         }
 
         .login-box {
-            background: white;
+            background: #1a1a1a;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #333;
             max-width: 350px;
             width: 100%;
-        }
-
-        body.dark .login-box {
-            background: #262626;
         }
 
         .login-box h2 {
@@ -52,16 +45,12 @@
         .login-box input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #dbdbdb;
+            border: 1px solid #333;
             border-radius: 6px;
             font-size: 14px;
             margin-bottom: 12px;
-        }
-
-        body.dark .login-box input {
-            background: #000;
-            border-color: #363636;
-            color: #fafafa;
+            background: #0a0a0a;
+            color: #fff;
         }
 
         .login-box button {
@@ -80,206 +69,153 @@
             background: #1877f2;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
         .header {
+            background: #1a1a1a;
+            padding: 16px 20px;
+            border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #dbdbdb;
-            margin-bottom: 30px;
-        }
-
-        body.dark .header {
-            border-color: #363636;
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 20px;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
+        .logout-btn {
             padding: 8px 16px;
-            background: #0095f6;
+            background: #333;
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
         }
 
-        .btn:hover {
-            background: #1877f2;
+        .logout-btn:hover {
+            background: #444;
         }
 
-        .btn-secondary {
-            background: #363636;
-        }
-
-        .btn-secondary:hover {
-            background: #262626;
-        }
-
-        .upload-section {
-            background: white;
-            border: 1px solid #dbdbdb;
-            border-radius: 12px;
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
             padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        body.dark .upload-section {
-            background: #000;
-            border-color: #363636;
-        }
-
-        .upload-section h3 {
-            margin-bottom: 16px;
-            font-size: 18px;
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .file-input-label {
-            display: block;
-            padding: 12px;
-            background: #fafafa;
-            border: 2px dashed #dbdbdb;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        body.dark .file-input-label {
-            background: #262626;
-            border-color: #363636;
-        }
-
-        .file-input-label:hover {
-            border-color: #0095f6;
-            background: #f0f8ff;
-        }
-
-        body.dark .file-input-label:hover {
-            background: #1a1a1a;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .preview {
-            margin-top: 16px;
-            max-width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .preview img, .preview video {
-            width: 100%;
-            display: block;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #dbdbdb;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 14px;
-            resize: vertical;
-            min-height: 80px;
-            margin-bottom: 12px;
-        }
-
-        body.dark textarea {
-            background: #262626;
-            border-color: #363636;
-            color: #fafafa;
-        }
-
-        .feed {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 12px;
         }
 
-        .post {
-            background: white;
-            border: 1px solid #dbdbdb;
+        .message {
+            max-width: 70%;
+            padding: 12px 16px;
             border-radius: 12px;
-            overflow: hidden;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
         }
 
-        body.dark .post {
-            background: #000;
-            border-color: #363636;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .post-media {
-            width: 100%;
-            background: #000;
+        .message.sent {
+            align-self: flex-end;
+            background: #0095f6;
+            color: white;
         }
 
-        .post-media img, .post-media video {
-            width: 100%;
-            display: block;
+        .message.received {
+            align-self: flex-start;
+            background: #1a1a1a;
+            border: 1px solid #333;
         }
 
-        .post-content {
-            padding: 16px;
+        .message-text {
+            margin-bottom: 6px;
+            line-height: 1.4;
         }
 
-        .post-caption {
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .post-meta {
+        .message-meta {
+            font-size: 11px;
+            opacity: 0.7;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            color: #8e8e8e;
+            gap: 8px;
         }
 
-        .delete-btn {
-            background: #ed4956;
+        .delete-msg-btn {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 0;
+            font-size: 11px;
+            text-decoration: underline;
+            opacity: 0.5;
+        }
+
+        .delete-msg-btn:hover {
+            opacity: 1;
+        }
+
+        .input-container {
+            background: #1a1a1a;
+            padding: 16px 20px;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 12px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 20px;
+            font-size: 14px;
+            background: #0a0a0a;
+            color: #fff;
+            resize: none;
+            font-family: inherit;
+            min-height: 40px;
+            max-height: 120px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #0095f6;
+        }
+
+        .send-btn {
+            padding: 0 20px;
+            background: #0095f6;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 12px;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .delete-btn:hover {
-            background: #c91e2c;
+        .send-btn:hover {
+            background: #1877f2;
+        }
+
+        .send-btn:disabled {
+            background: #333;
+            cursor: not-allowed;
         }
 
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #8e8e8e;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 8px;
+            color: #666;
         }
 
         .hidden {
@@ -296,239 +232,202 @@
 <body>
     <div id="loginScreen" class="login-container">
         <div class="login-box">
-            <h2>🔒 Private Feed</h2>
-            <input type="password" id="passwordInput" placeholder="Enter password" />
+            <h2>💬 Private Messages</h2>
+            <input type="text" id="nameInput" placeholder="Your name" />
+            <input type="password" id="passwordInput" placeholder="Password" />
             <button onclick="login()">Enter</button>
             <div id="loginError" class="error hidden"></div>
         </div>
     </div>
 
     <div id="mainApp" class="hidden">
-        <div class="container">
-            <div class="header">
-                <h1>✨ Our Feed</h1>
-                <div class="header-actions">
-                    <button class="btn btn-secondary" onclick="toggleDarkMode()">🌙</button>
-                    <button class="btn btn-secondary" onclick="logout()">Logout</button>
-                </div>
-            </div>
+        <div class="header">
+            <h1>💬 Messages</h1>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
 
-            <div class="upload-section">
-                <h3>Share Something</h3>
-                <div class="file-input-wrapper">
-                    <label for="mediaInput" class="file-input-label">
-                        📸 Click to upload photo or video
-                    </label>
-                    <input type="file" id="mediaInput" accept="image/*,video/*" onchange="handleFileSelect(event)" />
-                </div>
-                <div id="preview" class="preview hidden"></div>
-                <textarea id="caption" placeholder="Write a caption..."></textarea>
-                <button class="btn" onclick="uploadPost()">Post</button>
-                <div id="uploadError" class="error hidden"></div>
-            </div>
+        <div id="messagesContainer" class="messages-container"></div>
 
-            <div id="feed" class="feed"></div>
+        <div class="input-container">
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Type a message..."
+                rows="1"
+            ></textarea>
+            <button class="send-btn" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        const PASSWORD = 'pluto2024'; // Change this to your desired password
-        let currentMedia = null;
-        let isLoggedIn = false;
+        const PASSWORD = 'pluto2024'; // Change this
+        let currentUser = '';
+        let lastMessageCount = 0;
+
+        // Auto-resize textarea
+        const textarea = document.getElementById('messageInput');
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        }
 
         // Check if already logged in
         if (sessionStorage.getItem('loggedIn') === 'true') {
+            currentUser = sessionStorage.getItem('userName') || 'Anonymous';
             showMainApp();
         }
 
         function login() {
-            const input = document.getElementById('passwordInput').value;
+            const name = document.getElementById('nameInput').value.trim();
+            const pass = document.getElementById('passwordInput').value;
             const errorDiv = document.getElementById('loginError');
             
-            if (input === PASSWORD) {
-                sessionStorage.setItem('loggedIn', 'true');
-                showMainApp();
-            } else {
+            if (!name) {
+                errorDiv.textContent = 'Please enter your name';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (pass !== PASSWORD) {
                 errorDiv.textContent = 'Incorrect password';
                 errorDiv.classList.remove('hidden');
+                return;
             }
+
+            currentUser = name;
+            sessionStorage.setItem('loggedIn', 'true');
+            sessionStorage.setItem('userName', name);
+            showMainApp();
         }
 
         function logout() {
             sessionStorage.removeItem('loggedIn');
+            sessionStorage.removeItem('userName');
             document.getElementById('loginScreen').classList.remove('hidden');
             document.getElementById('mainApp').classList.add('hidden');
-            isLoggedIn = false;
+            currentUser = '';
         }
 
         function showMainApp() {
-            isLoggedIn = true;
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainApp').classList.remove('hidden');
-            loadPosts();
+            loadMessages();
             
-            // Check for dark mode preference
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark');
-            }
+            // Auto-refresh messages every 3 seconds
+            setInterval(loadMessages, 3000);
         }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark'));
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            const errorDiv = document.getElementById('uploadError');
-            errorDiv.classList.add('hidden');
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
             
-            if (!file) return;
+            if (!text) return;
 
-            // Check file size (5MB limit)
-            if (file.size > 5 * 1024 * 1024) {
-                errorDiv.textContent = 'File too large. Please use files under 5MB.';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                currentMedia = {
-                    data: e.target.result,
-                    type: file.type
-                };
-                displayPreview();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function displayPreview() {
-            const preview = document.getElementById('preview');
-            preview.classList.remove('hidden');
-            
-            if (currentMedia.type.startsWith('image/')) {
-                preview.innerHTML = `<img src="${currentMedia.data}" alt="Preview">`;
-            } else if (currentMedia.type.startsWith('video/')) {
-                preview.innerHTML = `<video src="${currentMedia.data}" controls></video>`;
-            }
-        }
-
-        async function uploadPost() {
-            const caption = document.getElementById('caption').value;
-            const errorDiv = document.getElementById('uploadError');
-            errorDiv.classList.add('hidden');
-
-            if (!currentMedia) {
-                errorDiv.textContent = 'Please select a photo or video';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            const post = {
+            const message = {
                 id: Date.now().toString(),
-                media: currentMedia,
-                caption: caption,
+                text: text,
+                sender: currentUser,
                 timestamp: new Date().toISOString()
             };
 
             try {
-                await window.storage.set(`post:${post.id}`, JSON.stringify(post), true);
-                
-                // Clear form
-                currentMedia = null;
-                document.getElementById('caption').value = '';
-                document.getElementById('mediaInput').value = '';
-                document.getElementById('preview').classList.add('hidden');
-                
-                // Reload feed
-                loadPosts();
+                await window.storage.set(`msg:${message.id}`, JSON.stringify(message), true);
+                input.value = '';
+                input.style.height = 'auto';
+                loadMessages();
             } catch (error) {
-                errorDiv.textContent = 'Failed to upload post. Please try again.';
-                errorDiv.classList.remove('hidden');
-                console.error('Upload error:', error);
+                console.error('Send error:', error);
+                alert('Failed to send message');
             }
         }
 
-        async function loadPosts() {
+        async function loadMessages() {
             try {
-                const result = await window.storage.list('post:', true);
-                const feedDiv = document.getElementById('feed');
+                const result = await window.storage.list('msg:', true);
+                const container = document.getElementById('messagesContainer');
                 
                 if (!result || !result.keys || result.keys.length === 0) {
-                    feedDiv.innerHTML = `
-                        <div class="empty-state">
-                            <h3>No posts yet</h3>
-                            <p>Share your first photo or video!</p>
-                        </div>
-                    `;
+                    if (lastMessageCount === 0) {
+                        container.innerHTML = `
+                            <div class="empty-state">
+                                <h3>No messages yet</h3>
+                                <p>Say something!</p>
+                            </div>
+                        `;
+                    }
                     return;
                 }
 
-                // Load all posts
-                const posts = [];
+                // Only update if message count changed
+                if (result.keys.length === lastMessageCount) return;
+                lastMessageCount = result.keys.length;
+
+                // Load all messages
+                const messages = [];
                 for (const key of result.keys) {
                     try {
-                        const postResult = await window.storage.get(key, true);
-                        if (postResult && postResult.value) {
-                            posts.push(JSON.parse(postResult.value));
+                        const msgResult = await window.storage.get(key, true);
+                        if (msgResult && msgResult.value) {
+                            messages.push(JSON.parse(msgResult.value));
                         }
                     } catch (error) {
-                        console.error('Error loading post:', error);
+                        console.error('Error loading message:', error);
                     }
                 }
 
-                // Sort by timestamp (newest first)
-                posts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                // Sort by timestamp
+                messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-                // Display posts
-                feedDiv.innerHTML = posts.map(post => `
-                    <div class="post">
-                        <div class="post-media">
-                            ${post.media.type.startsWith('image/') 
-                                ? `<img src="${post.media.data}" alt="Post">`
-                                : `<video src="${post.media.data}" controls></video>`
-                            }
-                        </div>
-                        <div class="post-content">
-                            ${post.caption ? `<div class="post-caption">${escapeHtml(post.caption)}</div>` : ''}
-                            <div class="post-meta">
-                                <span>${formatDate(post.timestamp)}</span>
-                                <button class="delete-btn" onclick="deletePost('${post.id}')">Delete</button>
+                // Display messages
+                const wasScrolledToBottom = container.scrollHeight - container.scrollTop === container.clientHeight;
+                
+                container.innerHTML = messages.map(msg => {
+                    const isSent = msg.sender === currentUser;
+                    return `
+                        <div class="message ${isSent ? 'sent' : 'received'}">
+                            <div class="message-text">${escapeHtml(msg.text)}</div>
+                            <div class="message-meta">
+                                <span>${isSent ? 'You' : msg.sender} • ${formatTime(msg.timestamp)}</span>
+                                ${isSent ? `<button class="delete-msg-btn" onclick="deleteMessage('${msg.id}')">delete</button>` : ''}
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
+
+                // Auto-scroll to bottom if was at bottom
+                if (wasScrolledToBottom || messages.length === 1) {
+                    container.scrollTop = container.scrollHeight;
+                }
 
             } catch (error) {
-                console.error('Error loading posts:', error);
+                console.error('Error loading messages:', error);
             }
         }
 
-        async function deletePost(postId) {
-            if (!confirm('Delete this post?')) return;
-
+        async function deleteMessage(msgId) {
             try {
-                await window.storage.delete(`post:${postId}`, true);
-                loadPosts();
+                await window.storage.delete(`msg:${msgId}`, true);
+                lastMessageCount--;
+                loadMessages();
             } catch (error) {
-                console.error('Error deleting post:', error);
-                alert('Failed to delete post');
+                console.error('Error deleting message:', error);
             }
         }
 
-        function formatDate(timestamp) {
+        function formatTime(timestamp) {
             const date = new Date(timestamp);
             const now = new Date();
             const diff = now - date;
             const minutes = Math.floor(diff / 60000);
             const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
 
+            if (minutes < 1) return 'just now';
             if (minutes < 60) return `${minutes}m ago`;
             if (hours < 24) return `${hours}h ago`;
-            if (days < 7) return `${days}d ago`;
-            return date.toLocaleDateString();
+            
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
         function escapeHtml(text) {
@@ -537,7 +436,15 @@
             return div.innerHTML;
         }
 
-        // Allow Enter key to login
+        // Enter to send (Shift+Enter for new line)
+        document.getElementById('messageInput')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Login with Enter key
         document.getElementById('passwordInput')?.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') login();
         });
