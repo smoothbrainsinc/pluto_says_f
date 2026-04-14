@@ -71,9 +71,9 @@ void main() {
     float gloss = pow(max(0.0, 1.0 - abs(dist + 0.08) * 4.5), 7.0);
     gloss *= smoothstep(-0.23, 0.1, dist);
 
-    // Rim highlight on drip bottoms
+    // Rim highlight on drip bottomsplutosaysf.uk
     float rim = pow(max(0.0, 1.0 - smoothstep(-0.05, 0.15, dist)), 4.0);
-
+    
     // Blood color
     vec3 blood  = vec3(0.75, 0.015, 0.045);
     vec3 darker = vec3(0.40, 0.005, 0.015);
