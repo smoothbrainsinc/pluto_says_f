@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Blood Drip – Exact Version</title>
   <style>
-    body, html { margin:0; padding:0; height:100%; background:#000; overflow:hidden; }
+    body, html { margin:0; padding:0; height:100%; background:#000; overflow-y:auto; }
     canvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; }
     h1 {padding-top: 100px; margin: 0px; margin-bottom: 50px; color: black; font-size: clamp(2rem, 8vw, 10em); text-align: center; font-family: "Slaytanic";  text-shadow:
      3px  3px 0 #66001a,  /* main highlight */
@@ -228,5 +228,113 @@ void main() {
 }
 </script>
   <script src="blood-effects.js"></script>
+  <div id="gallery" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; padding:40px; position:relative; z-index:1;"></div>
+
+<script>
+const images = [
+  'nsfw_Professional_3D_modeling_(72).jpeg',
+  'nsfw_Professional_3D_modeling_(73).jpeg',
+  'nsfw_Professional_3D_modeling_(74).jpeg',
+  'nsfw_Professional_3D_modeling_(75).jpeg',
+  'nsfw_Professional_3D_modeling_(76).jpeg',
+  'nsfw_Professional_3D_modeling_(77).jpeg',
+  'nsfw_Professional_3D_modeling_(78).jpeg',
+  'nsfw_Professional_3D_modeling_(79).jpeg',
+  'nsfw_Professional_3D_modeling_(80).jpeg',
+  'nsfw_Professional_3D_modeling_(81).jpeg',
+  'nsfw_Professional_3D_modeling_(82).jpeg',
+  'nsfw_Professional_3D_modeling_(83).jpeg',
+  'nsfw_realistic_photo_orthograp(1).jpeg',
+  'nsfw_realistic_photo_orthograp(2).jpeg',
+  'nsfw_realistic_photo_orthograp(3).jpeg',
+  'nsfw_realistic_photo_orthograp(4).jpeg',
+  'nsfw_realistic_photo_orthograp(5).jpeg',
+  'nsfw_realistic_photo_orthograp(6).jpeg',
+  'nsfw_realistic_photo_orthograp(7).jpeg',
+  'nsfw_realistic_photo_orthograp(8).jpeg',
+  'nsfw_realistic_photo_orthograp(9).jpeg',
+  'nsfw_realistic_photo_orthograp(10).jpeg',
+  'nsfw_realistic_photo_orthograp(11).jpeg',
+  'nsfw_realistic_photo_orthograp(12).jpeg',
+  'nsfw_realistic_photo_orthograp(13).jpeg',
+  'nsfw_realistic_photo_orthograp(14).jpeg',
+  'nsfw_realistic_photo_orthograp(15).jpeg',
+  'nsfw_realistic_photo_orthograp(16).jpeg',
+  'nsfw_realistic_photo_orthograp(17).jpeg',
+  'nsfw_realistic_photo_orthograp(18).jpeg',
+  'nsfw_realistic_photo_orthograp(19).jpeg',
+  'nsfw_realistic_photo_orthograp(20).jpeg',
+  'nsfw_realistic_photo_orthograp(21).jpeg',
+  'nsfw_realistic_photo_orthograp(22).jpeg',
+  'nsfw_realistic_photo_orthograp(23).jpeg',
+  'nsfw_realistic_photo_orthograp(24).jpeg',
+  'nsfw_realistic_photo_orthograp(25).jpeg',
+  'nsfw_realistic_photo_orthograp(26).jpeg',
+  'nsfw_realistic_photo_orthograp(27).jpeg',
+  'nsfw_realistic_photo_orthograp(28).jpeg',
+  'nsfw_realistic_photo_orthograp(29).jpeg',
+  'nsfw_realistic_photo_orthograp(30).jpeg',
+  'nsfw_realistic_photo_orthograp(31).jpeg',
+  'nsfw_realistic_photo_orthograp(32).jpeg',
+  'nsfw_realistic_photo_orthograp(33).jpeg',
+  'nsfw_realistic_photo_orthograp(34).jpeg',
+  'nsfw_realistic_photo_orthograp(35).jpeg',
+  'nsfw_realistic_photo_orthograp(36).jpeg',
+  'nsfw_realistic_photo_orthograp(37).jpeg',
+  'nsfw_realistic_photo_orthograp(38).jpeg',
+  'nsfw_realistic_photo_orthograp(39).jpeg',
+  'nsfw_realistic_photo_orthograp(40).jpeg',
+  'nsfw_realistic_photo_orthograp(41).jpeg',
+  'nsfw_realistic_photo_orthograp(42).jpeg',
+  'nsfw_realistic_photo_orthograp(43).jpeg',
+  'nsfw_realistic_photo_orthograp(44).jpeg',
+  'nsfw_realistic_photo_orthograp(45).jpeg',
+  'nsfw_realistic_photo_orthograp(46).jpeg',
+  'nsfw_realistic_photo_orthograp(47).jpeg',
+  'nsfw_realistic_photo_orthograp(48).jpeg',
+  'nsfw_realistic_photo_orthograp(49).jpeg',
+  'nsfw_realistic_photo_orthograp(50).jpeg',
+  'nsfw_realistic_photo_orthograp(51).jpeg',
+  'nsfw_realistic_photo_orthograp(52).jpeg',
+  'nsfw_realistic_photo_orthograp(53).jpeg',
+  'nsfw_realistic_photo_orthograp(54).jpeg',
+  'nsfw_realistic_photo_orthograp(55).jpeg',
+  'nsfw_realistic_photo_orthograp(56).jpeg',
+  'nsfw_realistic_photo_orthograp(57).jpeg',
+  'nsfw_realistic_photo_orthograp(58).jpeg',
+  'nsfw_realistic_photo_orthograp(59).jpeg',
+  'nsfw_realistic_photo_orthograp(60).jpeg',
+  'nsfw_realistic_photo_orthograp(61).jpeg',
+  'nsfw_realistic_photo_orthograp(62).jpeg',
+  'nsfw_realistic_photo_orthograp(63).jpeg',
+  'nsfw_realistic_photo_orthograp(64).jpeg',
+  'nsfw_realistic_photo_orthograp(65).jpeg',
+  'nsfw_realistic_photo_orthograp(66).jpeg',
+  'nsfw_realistic_photo_orthograp(67).jpeg',
+  'nsfw_realistic_photo_orthograp(68).jpeg',
+  'nsfw_realistic_photo_orthograp(69).jpeg',
+  'nsfw_realistic_photo_orthograp(70).jpeg',
+  'nsfw_realistic_photo_orthograp(71).jpeg',
+  'nsfw_realistic_photo_orthograp(72).jpeg',
+  'nsfw_realistic_photo_orthograp(73).jpeg',
+  'nsfw_realistic_photo_orthograp(74).jpeg',
+  'nsfw_realistic_photo_orthograp(75).jpeg',
+  'nsfw_realistic_photo_orthograp(76).jpeg',
+  'nsfw_realistic_photo_orthograp.jpeg',
+  'nsfw_realistic_photo_Professio(1).jpeg',
+  'nsfw_realistic_photo_Professio(2).jpeg',
+  'nsfw_realistic_photo_Professio(3).jpeg',
+  'nsfw_realistic_photo_Professio(4).jpeg',
+  'nsfw_realistic_photo_Professio(5).jpeg',
+  'nsfw_realistic_photo_Professio.jpeg',
+];
+const gallery = document.getElementById('gallery');
+images.forEach(filename => {
+  const img = document.createElement('img');
+  img.src = 'nuns/' + filename;
+  img.style.cssText = 'height:200px; border:2px solid #66001a; cursor:pointer;';
+  gallery.appendChild(img);
+});
+</script>
 </body>
 </html>
