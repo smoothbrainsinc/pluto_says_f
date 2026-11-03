@@ -286,7 +286,8 @@ function wrongAccusation(victim) {
   game.shoppers.splice(game.shoppers.indexOf(victim), 1);
   if (game.strikes >= MAX_STRIKES) { endGame("Fired. Too many false accusations."); return; }
   game.managerLine = "Manager: \u201C" + name + " is a regular! My office, now.\u201D";
-  game.penalty = PENALTIES[game.strikes - 1];
+  const base = PENALTIES[game.strikes - 1];
+  game.penalty = name === "Karen" ? base * 2 : base;
   game.thief.beginRampage();
 }
 
