@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Johnny Memphis</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0b0c0f; }
+  body { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  canvas { width: min(100vw, calc(100vh * 16 / 9)); height: auto; touch-action: none; cursor: crosshair; }
+</style>
+</head>
+<body>
+<canvas id="game" width="1280" height="720"></canvas>
+<script>
+(() => {
+"use strict";
+
+const W = 1280, H = 720;
+const ROW_Y = [190, 330, 470];
+const AISLE_Y = [120, 260, 400, 540];
+const SHELF_W = 100, SHELF_H = 40, SHELF_X0 = 200, SHELVES_PER_ROW = 8;
+const LEFT_X = 140, RIGHT_X = 1140;
+const WALL = { l: 100, r: 1180, t: 60, b: 680 };
+const EXITS = [{ x: LEFT_X, y: 650 }, { x: RIGHT_X, y: 650 }];
+const SHOPPER_COUNT = 15, START_STOCK = 3, MAX_STRIKES = 3;
+const PENALTIES = [10, 15];
+const CLICK_RADIUS = 18;
+const NAMES = ["Karen", "Brenda", "Doug", "Gary", "Linda", "Todd", "Susan"];
+
+const SIZE = 14, BASE_SPEED = 90;
+const NERVOUS_MULT = 1.2, FLEE_MULT = 1.8, RAMPAGE_MULT = 1.6, THIEF_QUOTA = 4;
+
+const PAUSED = 0, WALKING = 1;
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const rand = (a, b) => a + Math.random() * (b - a);
+const randInt = (a, b) => Math.floor(rand(a, b + 1));
+const dist = (ax, ay, bx, by) => Math.hypot(ax - bx, ay - by);
+
+const game = {};
+
+function shelfAccess(idx, above) {
+  const s = game.shelves[idx];
+  const aisle = above ? s.row : s.row + 1;
+  return { x: s.x + s.w / 2, y: AISLE_Y[aisle] };
+}
+
+function randomShelf() {
+  return randInt(0, game.shelves.length - 1);
+}
+
+function buildPath(from, to, corridorX) {
+  if (corridorX < 0 && Math.abs(from.y - to.y) < 1) return [{ x: to.x, y: to.y }];
+  let cx = corridorX;
+  if (cx < 0) {
+    if (Math.abs(from.x - LEFT_X) < 1) cx = LEFT_X;
+    else if (Math.abs(from.x - RIGHT_X) < 1) cx = RIGHT_X;
+    else cx = (from.x + to.x) * 0.5 < 640 ? LEFT_X : RIGHT_X;
+  }
+  return [{ x: cx, y: from.y }, { x: cx, y: to.y }, { x: to.x, y: to.y }];
+}
+
+function pathLength(x, y, path) {
+  let total = 0;
+  for (const p of path) {
+    total += dist(x, y, p.x, p.y);
+    x = p.x;
+    y = p.y;
+  }
+  return total;
+}
+
+function richestShelf() {
+  const candidates = [];
+  game.shelves.forEach((s, i) => { if (s.stock > 0) candidates.push(i); });
+  if (candidates.length === 0) return -1;
+  candidates.sort((a, b) => game.shelves[b].value - game.shelves[a].value);
+  return candidates[randInt(0, Math.min(2, candidates.length - 1))];
+}
+
+function nearestStockedShelf(x, y) {
+  let best = -1, bestDist = Infinity;
+  game.shelves.forEach((s, i) => {
+    if (s.stock <= 0) return;
+    const d = dist(x, y, s.x + s.w / 2, s.y + s.h / 2);
+    if (d < bestDist) { bestDist = d; best = i; }
+  });
+  return best;
+}
+
+function steal(idx) {
+  const s = game.shelves[idx];
+  if (s.stock <= 0) return false;
+  s.stock -= 1;
+  return true;
+}
+
+function stockTotal() {
+  return game.shelves.reduce((sum, s) => sum + s.stock, 0);
+}
+
+class Shopper {
+  constructor(isThief, jitter, pos, pause) {
+    this.isThief = isThief;
+    this.jitter = jitter;
+    this.x = pos.x;
+    this.y = pos.y;
+    this.pause = pause;
+    this.state = PAUSED;
+    this.path = [];
+    this.target = -1;
+    this.fleeing = false;
+    this.nervous = false;
+    this.rampage = false;
+    this.steals = 0;
+  }
+
+  beginRampage() {
+    this.rampage = true;
+    this.fleeing = false;
+    this.path = [];
+    this.target = -1;
+    this.state = PAUSED;
+    this.pause = 0.1;
+  }
+
+  endRampage() {
+    this.rampage = false;
+    this.nervous = true;
+    this.steals = Math.max(this.steals, THIEF_QUOTA);
+  }
+
+  update(dt) {
+    if (game.over) return;
+    if (this.state === PAUSED) {
+      this.pause -= dt;
+      if (this.pause <= 0) this.chooseNext();
+    } else {
+      this.walk(dt);
+    }
+  }
+
+  speed() {
+    let mult = this.jitter;
+    if (this.isThief) {
+      if (this.fleeing) mult *= FLEE_MULT;
+      else if (this.rampage) mult *= RAMPAGE_MULT;
+      else if (this.nervous) mult *= NERVOUS_MULT;
+    }
+    return BASE_SPEED * mult;
+  }
+
+  walk(dt) {
+    const goal = this.path[0];
+    const step = this.speed() * dt;
+    const d = dist(this.x, this.y, goal.x, goal.y);
+    if (d <= step) {
+      this.x = goal.x;
+      this.y = goal.y;
+      this.path.shift();
+      if (this.path.length === 0) this.arrive();
+    } else {
+      this.x += ((goal.x - this.x) / d) * step;
+      this.y += ((goal.y - this.y) / d) * step;
+    }
+  }
+
+  chooseNext() {
+    if (this.isThief) {
+      if (this.fleeing) { this.goToExit(); return; }
+      if (this.rampage) {
+        this.target = nearestStockedShelf(this.x, this.y);
+      } else if (this.steals >= THIEF_QUOTA) {
+        this.startFleeing();
+        return;
+      } else {
+        this.target = richestShelf();
+      }
+      if (this.target < 0) { this.startFleeing(); return; }
+    } else {
+      this.target = randomShelf();
+    }
+    const dest = shelfAccess(this.target, Math.random() < 0.5);
+    this.path = buildPath({ x: this.x, y: this.y }, dest, -1);
+    this.state = WALKING;
+  }
+
+  startFleeing() {
+    this.fleeing = true;
+    this.goToExit();
+  }
+
+  goToExit() {
+    this.target = -1;
+    const inCorridor = Math.abs(this.x - LEFT_X) < 1 || Math.abs(this.x - RIGHT_X) < 1;
+    let best = null, bestLen = Infinity;
+    for (const e of EXITS) {
+      if (inCorridor && Math.abs(this.x - e.x) > 1) continue;
+      const p = buildPath({ x: this.x, y: this.y }, e, e.x);
+      const len = pathLength(this.x, this.y, p);
+      if (len < bestLen) { bestLen = len; best = p; }
+    }
+    this.path = best;
+    this.state = WALKING;
+  }
+
+  arrive() {
+    if (this.fleeing) { endGame("Johnny got away with the goods."); return; }
+    if (this.isThief && this.target >= 0 && steal(this.target)) {
+      this.steals += 1;
+      this.nervous = true;
+    }
+    this.target = -1;
+    this.state = PAUSED;
+    this.pause = this.nextPause();
+  }
+
+  nextPause() {
+    if (this.isThief && this.rampage) return 0.2;
+    if (this.isThief && this.nervous) return rand(0.4, 1.0);
+    return rand(1.5, 3.5);
+  }
+
+  draw() {
+    ctx.fillStyle = this.isThief && this.fleeing ? "#ff3333" : "#d9d9e6";
+    ctx.fillRect(this.x - SIZE / 2, this.y - SIZE / 2, SIZE, SIZE);
+  }
+}
+
+function reset() {
+  game.shelves = [];
+  ROW_Y.forEach((ry, row) => {
+    for (let i = 0; i < SHELVES_PER_ROW; i++) {
+      game.shelves.push({
+        x: SHELF_X0 + i * (SHELF_W + 10),
+        y: ry - SHELF_H / 2,
+        w: SHELF_W,
+        h: SHELF_H,
+        row,
+        value: randInt(1, 5),
+        stock: START_STOCK,
+      });
+    }
+  });
+  game.maxStock = game.shelves.length * START_STOCK;
+  game.shoppers = [];
+  const thiefIndex = randInt(0, SHOPPER_COUNT - 1);
+  for (let i = 0; i < SHOPPER_COUNT; i++) {
+    const start = shelfAccess(randomShelf(), Math.random() < 0.5);
+    const s = new Shopper(i === thiefIndex, rand(0.85, 1.15), start, rand(0, 3));
+    game.shoppers.push(s);
+    if (i === thiefIndex) game.thief = s;
+  }
+  game.strikes = 0;
+  game.penalty = 0;
+  game.managerLine = "";
+  game.over = false;
+  game.result = "";
+  game.endTime = 0;
+}
+
+function endGame(text) {
+  if (game.over) return;
+  game.over = true;
+  game.result = text;
+  game.endTime = performance.now();
+}
+
+function accuseAt(x, y) {
+  let hit = null, best = CLICK_RADIUS;
+  for (const s of game.shoppers) {
+    const d = dist(s.x, s.y, x, y);
+    if (d < best) { best = d; hit = s; }
+  }
+  if (!hit) return;
+  if (hit.isThief) { endGame("You caught Johnny Memphis!"); return; }
+  wrongAccusation(hit);
+}
+
+function wrongAccusation(victim) {
+  game.strikes += 1;
+  const name = NAMES[randInt(0, NAMES.length - 1)];
+  game.shoppers.splice(game.shoppers.indexOf(victim), 1);
+  if (game.strikes >= MAX_STRIKES) { endGame("Fired. Too many false accusations."); return; }
+  game.managerLine = "Manager: \u201C" + name + " is a regular! My office, now.\u201D";
+  game.penalty = PENALTIES[game.strikes - 1];
+  game.thief.beginRampage();
+}
+
+function update(dt) {
+  if (game.over) return;
+  if (game.penalty > 0) {
+    game.penalty -= dt;
+    if (game.penalty <= 0) {
+      game.penalty = 0;
+      game.thief.endRampage();
+    }
+  }
+  for (const s of game.shoppers) s.update(dt);
+  if (stockTotal() <= 0) endGame("Johnny emptied the store.");
+}
+
+function shelfColor(s) {
+  if (s.stock <= 0) return "rgb(51,51,56)";
+  const t = (s.value - 1) / 4;
+  const a = [77, 89, 128], b = [242, 191, 51];
+  const c = a.map((v, i) => Math.round(v + (b[i] - v) * t));
+  return "rgb(" + c.join(",") + ")";
+}
+
+function draw() {
+  ctx.fillStyle = "#0b0c0f";
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = "#1f2129";
+  ctx.fillRect(WALL.l, WALL.t, WALL.r - WALL.l, WALL.b - WALL.t);
+  ctx.strokeStyle = "#80808c";
+  ctx.lineWidth = 4;
+  ctx.strokeRect(WALL.l, WALL.t, WALL.r - WALL.l, WALL.b - WALL.t);
+
+  for (const s of game.shelves) {
+    ctx.fillStyle = shelfColor(s);
+    ctx.fillRect(s.x, s.y, s.w, s.h);
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    for (let i = 0; i < s.stock; i++) {
+      ctx.beginPath();
+      ctx.arc(s.x + 14 + i * 14, s.y + s.h / 2, 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  ctx.font = "16px system-ui, sans-serif";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+  for (const e of EXITS) {
+    ctx.fillStyle = "#33cc4d";
+    ctx.fillRect(e.x - 30, WALL.b - 6, 60, 8);
+    ctx.fillStyle = "#d9d9e6";
+    ctx.fillText("EXIT", e.x - 20, WALL.b + 24);
+  }
+
+  for (const s of game.shoppers) s.draw();
+
+  ctx.fillStyle = "#d9d9e6";
+  ctx.font = "18px system-ui, sans-serif";
+  ctx.fillText("Strikes " + game.strikes + "/" + MAX_STRIKES + "    Stock " + stockTotal() + "/" + game.maxStock + "    R = restart", 12, 28);
+
+  let banner = "";
+  if (game.over) banner = game.result + "\nPress R or tap to restart";
+  else if (game.penalty > 0) banner = game.managerLine + "\nBack on the floor in " + Math.ceil(game.penalty);
+  if (banner) {
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "32px system-ui, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    const lines = banner.split("\n");
+    lines.forEach((line, i) => ctx.fillText(line, W / 2, H / 2 + (i - (lines.length - 1) / 2) * 44));
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+  }
+}
+
+canvas.addEventListener("pointerdown", (e) => {
+  const r = canvas.getBoundingClientRect();
+  const x = (e.clientX - r.left) * (W / r.width);
+  const y = (e.clientY - r.top) * (H / r.height);
+  if (game.over) {
+    if (performance.now() - game.endTime > 600) reset();
+    return;
+  }
+  if (game.penalty > 0) return;
+  accuseAt(x, y);
+});
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "r" || e.key === "R") reset();
+});
+
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now;
+  update(dt);
+  draw();
+  requestAnimationFrame(frame);
+}
+
+reset();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
